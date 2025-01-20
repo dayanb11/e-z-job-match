@@ -50,6 +50,7 @@ export const SkillsExperienceForm = ({
 
   const handleIndustryChange = (value: string) => {
     setSelectedIndustry(value);
+    // Reset all role entries when industry changes
     setRoleEntries([
       {
         id: 0,
@@ -61,15 +62,17 @@ export const SkillsExperienceForm = ({
   };
 
   const handleAddRole = () => {
-    setRoleEntries([
-      ...roleEntries,
-      {
-        id: roleEntries.length,
-        selectedRole: "",
-        selectedSkills: [],
-        selectedSubSkills: [],
-      },
-    ]);
+    if (selectedIndustry) {
+      setRoleEntries([
+        ...roleEntries,
+        {
+          id: roleEntries.length,
+          selectedRole: "",
+          selectedSkills: [],
+          selectedSubSkills: [],
+        },
+      ]);
+    }
   };
 
   const selectedIndustryData = industriesData.find(
@@ -84,82 +87,85 @@ export const SkillsExperienceForm = ({
           onIndustryChange={handleIndustryChange}
         />
 
-        {selectedIndustry &&
-          roleEntries.map((entry, index) => (
-            <RoleEntry
-              key={entry.id}
-              index={index}
-              entry={entry}
-              availableRoles={selectedIndustryData?.roles || []}
-              isRemovable={index > 0}
-              onRoleSelect={(value) => {
-                const updatedEntries = [...roleEntries];
-                updatedEntries[index] = {
-                  ...updatedEntries[index],
-                  selectedRole: value,
-                  selectedSkills: [],
-                  selectedSubSkills: [],
-                };
-                setRoleEntries(updatedEntries);
-              }}
-              onSkillSelect={(skill) => {
-                const updatedEntries = [...roleEntries];
-                if (!updatedEntries[index].selectedSkills.includes(skill)) {
-                  updatedEntries[index] = {
-                    ...updatedEntries[index],
-                    selectedSkills: [...updatedEntries[index].selectedSkills, skill],
-                  };
-                  setRoleEntries(updatedEntries);
-                }
-              }}
-              onSubSkillSelect={(subSkill) => {
-                const updatedEntries = [...roleEntries];
-                if (!updatedEntries[index].selectedSubSkills.includes(subSkill)) {
-                  updatedEntries[index] = {
-                    ...updatedEntries[index],
-                    selectedSubSkills: [
-                      ...updatedEntries[index].selectedSubSkills,
-                      subSkill,
-                    ],
-                  };
-                  setRoleEntries(updatedEntries);
-                }
-              }}
-              onRemoveSkill={(skill) => {
-                const updatedEntries = [...roleEntries];
-                updatedEntries[index] = {
-                  ...updatedEntries[index],
-                  selectedSkills: updatedEntries[index].selectedSkills.filter(
-                    (s) => s !== skill
-                  ),
-                };
-                setRoleEntries(updatedEntries);
-              }}
-              onRemoveSubSkill={(subSkill) => {
-                const updatedEntries = [...roleEntries];
-                updatedEntries[index] = {
-                  ...updatedEntries[index],
-                  selectedSubSkills: updatedEntries[index].selectedSubSkills.filter(
-                    (ss) => ss !== subSkill
-                  ),
-                };
-                setRoleEntries(updatedEntries);
-              }}
-              onRemoveRole={() => {
-                setRoleEntries(roleEntries.filter((_, i) => i !== index));
-              }}
-            />
-          ))}
-
         {selectedIndustry && (
-          <Button
-            type="button"
-            variant="outline"
-            onClick={handleAddRole}
-            className="w-full"
-          >
-            הוסף תפקיד
-          </Button>
+          <div className="space-y-6">
+            {roleEntries.map((entry, index) => (
+              <RoleEntry
+                key={entry.id}
+                index={index}
+                entry={entry}
+                availableRoles={selectedIndustryData?.roles || []}
+                isRemovable={index > 0}
+                onRoleSelect={(value) => {
+                  const updatedEntries = [...roleEntries];
+                  updatedEntries[index] = {
+                    ...updatedEntries[index],
+                    selectedRole: value,
+                    selectedSkills: [],
+                    selectedSubSkills: [],
+                  };
+                  setRoleEntries(updatedEntries);
+                }}
+                onSkillSelect={(skill) => {
+                  const updatedEntries = [...roleEntries];
+                  if (!updatedEntries[index].selectedSkills.includes(skill)) {
+                    updatedEntries[index] = {
+                      ...updatedEntries[index],
+                      selectedSkills: [...updatedEntries[index].selectedSkills, skill],
+                    };
+                    setRoleEntries(updatedEntries);
+                  }
+                }}
+                onSubSkillSelect={(subSkill) => {
+                  const updatedEntries = [...roleEntries];
+                  if (!updatedEntries[index].selectedSubSkills.includes(subSkill)) {
+                    updatedEntries[index] = {
+                      ...updatedEntries[index],
+                      selectedSubSkills: [
+                        ...updatedEntries[index].selectedSubSkills,
+                        subSkill,
+                      ],
+                    };
+                    setRoleEntries(updatedEntries);
+                  }
+                }}
+                onRemoveSkill={(skill) => {
+                  const updatedEntries = [...roleEntries];
+                  updatedEntries[index] = {
+                    ...updatedEntries[index],
+                    selectedSkills: updatedEntries[index].selectedSkills.filter(
+                      (s) => s !== skill
+                    ),
+                    // Clear subskills when removing a skill
+                    selectedSubSkills: [],
+                  };
+                  setRoleEntries(updatedEntries);
+                }}
+                onRemoveSubSkill={(subSkill) => {
+                  const updatedEntries = [...roleEntries];
+                  updatedEntries[index] = {
+                    ...updatedEntries[index],
+                    selectedSubSkills: updatedEntries[index].selectedSubSkills.filter(
+                      (ss) => ss !== subSkill
+                    ),
+                  };
+                  setRoleEntries(updatedEntries);
+                }}
+                onRemoveRole={() => {
+                  setRoleEntries(roleEntries.filter((_, i) => i !== index));
+                }}
+              />
+            ))}
+
+            <Button
+              type="button"
+              variant="outline"
+              onClick={handleAddRole}
+              className="w-full"
+            >
+              הוסף תפקיד
+            </Button>
+          </div>
         )}
 
         <div className="flex gap-4">
