@@ -20,10 +20,7 @@ export const IndustrySelect = ({
   return (
     <div className="space-y-2">
       <Label>תעשייה</Label>
-      <Select
-        value={selectedIndustry}
-        onValueChange={onIndustryChange}
-      >
+      <Select value={selectedIndustry} onValueChange={onIndustryChange}>
         <SelectTrigger>
           <SelectValue placeholder="בחר תעשייה" />
         </SelectTrigger>
