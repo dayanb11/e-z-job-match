@@ -12,6 +12,12 @@ import {
 import { industriesData } from "@/data/skillsData";
 import { Badge } from "@/components/ui/badge";
 
+interface RoleData {
+  role: string;
+  skills: string[];
+  subSkills: string[];
+}
+
 interface SkillsExperienceFormProps {
   onNext: () => void;
   onBack: () => void;
@@ -30,17 +36,41 @@ export const SkillsExperienceForm = ({
   const [selectedSkill, setSelectedSkill] = useState("");
   const [selectedSkills, setSelectedSkills] = useState<string[]>([]);
   const [selectedSubSkills, setSelectedSubSkills] = useState<string[]>([]);
+  const [roles, setRoles] = useState<RoleData[]>([]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    setFormData({
-      ...formData,
-      industry: selectedIndustry,
-      role: selectedRole,
-      skills: selectedSkills,
-      subSkills: selectedSubSkills,
-    });
+    if (selectedRole && selectedSkills.length > 0) {
+      const currentRole: RoleData = {
+        role: selectedRole,
+        skills: selectedSkills,
+        subSkills: selectedSubSkills,
+      };
+      const updatedRoles = [...roles, currentRole];
+      setRoles(updatedRoles);
+      setFormData({
+        ...formData,
+        industry: selectedIndustry,
+        roles: updatedRoles,
+      });
+    }
     onNext();
+  };
+
+  const handleAddRole = () => {
+    if (selectedRole && selectedSkills.length > 0) {
+      const newRole: RoleData = {
+        role: selectedRole,
+        skills: selectedSkills,
+        subSkills: selectedSubSkills,
+      };
+      setRoles([...roles, newRole]);
+      // Reset current selections
+      setSelectedRole("");
+      setSelectedSkill("");
+      setSelectedSkills([]);
+      setSelectedSubSkills([]);
+    }
   };
 
   const handleSkillSelect = (skill: string) => {
@@ -61,17 +91,21 @@ export const SkillsExperienceForm = ({
     if (selectedSkill === skill) {
       setSelectedSkill("");
     }
-    // Remove associated subskills when removing a skill
     const skillData = selectedRoleData?.skills.find((s) => s.name === skill);
     if (skillData?.subSkills) {
-      setSelectedSubSkills(selectedSubSkills.filter(
-        (ss) => !skillData.subSkills?.includes(ss)
-      ));
+      setSelectedSubSkills(
+        selectedSubSkills.filter((ss) => !skillData.subSkills?.includes(ss))
+      );
     }
   };
 
   const handleRemoveSubSkill = (subSkill: string) => {
     setSelectedSubSkills(selectedSubSkills.filter((ss) => ss !== subSkill));
+  };
+
+  const handleRemoveRole = (index: number) => {
+    const updatedRoles = roles.filter((_, i) => i !== index);
+    setRoles(updatedRoles);
   };
 
   const selectedIndustryData = industriesData.find(
@@ -81,7 +115,6 @@ export const SkillsExperienceForm = ({
     (role) => role.title === selectedRole
   );
 
-  // Get all available subskills from selected skills
   const availableSubSkills = selectedSkills
     .map((skillName) => {
       const skill = selectedRoleData?.skills.find((s) => s.name === skillName);
@@ -147,17 +180,14 @@ export const SkillsExperienceForm = ({
           <>
             <div className="space-y-2">
               <Label>כישורים</Label>
-              <Select
-                value={selectedSkill}
-                onValueChange={handleSkillSelect}
-              >
+              <Select value={selectedSkill} onValueChange={handleSkillSelect}>
                 <SelectTrigger>
                   <SelectValue placeholder="בחר כישור" />
                 </SelectTrigger>
                 <SelectContent>
                   {selectedRoleData?.skills.map((skill) => (
-                    <SelectItem 
-                      key={skill.name} 
+                    <SelectItem
+                      key={skill.name}
                       value={skill.name}
                       disabled={selectedSkills.includes(skill.name)}
                     >
@@ -173,11 +203,7 @@ export const SkillsExperienceForm = ({
                 <Label>כישורים נבחרים</Label>
                 <div className="flex flex-wrap gap-2">
                   {selectedSkills.map((skillName) => (
-                    <Badge 
-                      key={skillName} 
-                      variant="secondary" 
-                      className="text-sm"
-                    >
+                    <Badge key={skillName} variant="secondary" className="text-sm">
                       {skillName}
                       <button
                         type="button"
@@ -195,10 +221,7 @@ export const SkillsExperienceForm = ({
             {availableSubSkills.length > 0 && (
               <div className="space-y-2">
                 <Label>כישורי משנה</Label>
-                <Select
-                  value=""
-                  onValueChange={handleSubSkillSelect}
-                >
+                <Select value="" onValueChange={handleSubSkillSelect}>
                   <SelectTrigger>
                     <SelectValue placeholder="בחר כישור משנה" />
                   </SelectTrigger>
@@ -218,11 +241,7 @@ export const SkillsExperienceForm = ({
                 {selectedSubSkills.length > 0 && (
                   <div className="flex flex-wrap gap-2 mt-2">
                     {selectedSubSkills.map((subSkill) => (
-                      <Badge
-                        key={subSkill}
-                        variant="outline"
-                        className="text-sm"
-                      >
+                      <Badge key={subSkill} variant="outline" className="text-sm">
                         {subSkill}
                         <button
                           type="button"
@@ -237,17 +256,66 @@ export const SkillsExperienceForm = ({
                 )}
               </div>
             )}
+
+            <Button
+              type="button"
+              variant="outline"
+              onClick={handleAddRole}
+              className="w-full"
+              disabled={!selectedRole || selectedSkills.length === 0}
+            >
+              הוסף תפקיד
+            </Button>
           </>
+        )}
+
+        {roles.length > 0 && (
+          <div className="space-y-4">
+            <Label>תפקידים שנבחרו</Label>
+            {roles.map((role, index) => (
+              <div
+                key={index}
+                className="p-4 border rounded-md space-y-2 bg-gray-50"
+              >
+                <div className="flex justify-between items-center">
+                  <h4 className="font-medium">{role.role}</h4>
+                  <button
+                    type="button"
+                    className="text-destructive hover:text-destructive/80"
+                    onClick={() => handleRemoveRole(index)}
+                  >
+                    הסר
+                  </button>
+                </div>
+                <div className="flex flex-wrap gap-2">
+                  {role.skills.map((skill) => (
+                    <Badge key={skill} variant="secondary">
+                      {skill}
+                    </Badge>
+                  ))}
+                </div>
+                {role.subSkills.length > 0 && (
+                  <div className="flex flex-wrap gap-2">
+                    {role.subSkills.map((subSkill) => (
+                      <Badge key={subSkill} variant="outline">
+                        {subSkill}
+                      </Badge>
+                    ))}
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
         )}
 
         <div className="flex gap-4">
           <Button type="button" variant="outline" onClick={onBack} className="flex-1">
             חזור
           </Button>
-          <Button 
-            type="submit" 
+          <Button
+            type="submit"
             className="flex-1"
-            disabled={!selectedIndustry || !selectedRole || selectedSkills.length === 0}
+            disabled={!selectedIndustry || roles.length === 0}
           >
             המשך
           </Button>
