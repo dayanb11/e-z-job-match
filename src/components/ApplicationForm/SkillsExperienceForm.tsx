@@ -29,6 +29,7 @@ export const SkillsExperienceForm = ({
   const [selectedRole, setSelectedRole] = useState("");
   const [selectedSkill, setSelectedSkill] = useState("");
   const [selectedSkills, setSelectedSkills] = useState<string[]>([]);
+  const [selectedSubSkills, setSelectedSubSkills] = useState<string[]>([]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -37,6 +38,7 @@ export const SkillsExperienceForm = ({
       industry: selectedIndustry,
       role: selectedRole,
       skills: selectedSkills,
+      subSkills: selectedSubSkills,
     });
     onNext();
   };
@@ -48,11 +50,28 @@ export const SkillsExperienceForm = ({
     }
   };
 
+  const handleSubSkillSelect = (subSkill: string) => {
+    if (!selectedSubSkills.includes(subSkill)) {
+      setSelectedSubSkills([...selectedSubSkills, subSkill]);
+    }
+  };
+
   const handleRemoveSkill = (skill: string) => {
     setSelectedSkills(selectedSkills.filter((s) => s !== skill));
     if (selectedSkill === skill) {
       setSelectedSkill("");
     }
+    // Remove associated subskills when removing a skill
+    const skillData = selectedRoleData?.skills.find((s) => s.name === skill);
+    if (skillData?.subSkills) {
+      setSelectedSubSkills(selectedSubSkills.filter(
+        (ss) => !skillData.subSkills?.includes(ss)
+      ));
+    }
+  };
+
+  const handleRemoveSubSkill = (subSkill: string) => {
+    setSelectedSubSkills(selectedSubSkills.filter((ss) => ss !== subSkill));
   };
 
   const selectedIndustryData = industriesData.find(
@@ -61,6 +80,14 @@ export const SkillsExperienceForm = ({
   const selectedRoleData = selectedIndustryData?.roles.find(
     (role) => role.title === selectedRole
   );
+
+  // Get all available subskills from selected skills
+  const availableSubSkills = selectedSkills
+    .map((skillName) => {
+      const skill = selectedRoleData?.skills.find((s) => s.name === skillName);
+      return skill?.subSkills || [];
+    })
+    .flat();
 
   return (
     <Card className="p-6 w-full max-w-2xl">
@@ -74,6 +101,7 @@ export const SkillsExperienceForm = ({
               setSelectedRole("");
               setSelectedSkill("");
               setSelectedSkills([]);
+              setSelectedSubSkills([]);
             }}
           >
             <SelectTrigger>
@@ -98,6 +126,7 @@ export const SkillsExperienceForm = ({
                 setSelectedRole(value);
                 setSelectedSkill("");
                 setSelectedSkills([]);
+                setSelectedSubSkills([]);
               }}
             >
               <SelectTrigger>
@@ -143,37 +172,69 @@ export const SkillsExperienceForm = ({
               <div className="space-y-2">
                 <Label>כישורים נבחרים</Label>
                 <div className="flex flex-wrap gap-2">
-                  {selectedSkills.map((skillName) => {
-                    const skill = selectedRoleData?.skills.find(
-                      (s) => s.name === skillName
-                    );
-                    return (
-                      <div key={skillName} className="space-y-2">
-                        <div className="flex items-center gap-2">
-                          <Badge variant="secondary" className="text-sm">
-                            {skillName}
-                            <button
-                              type="button"
-                              className="ml-2 hover:text-destructive"
-                              onClick={() => handleRemoveSkill(skillName)}
-                            >
-                              ✕
-                            </button>
-                          </Badge>
-                        </div>
-                        {skill?.subSkills && (
-                          <div className="flex flex-wrap gap-2 pr-4">
-                            {skill.subSkills.map((subSkill) => (
-                              <Badge key={subSkill} variant="outline">
-                                {subSkill}
-                              </Badge>
-                            ))}
-                          </div>
-                        )}
-                      </div>
-                    );
-                  })}
+                  {selectedSkills.map((skillName) => (
+                    <Badge 
+                      key={skillName} 
+                      variant="secondary" 
+                      className="text-sm"
+                    >
+                      {skillName}
+                      <button
+                        type="button"
+                        className="mr-2 hover:text-destructive"
+                        onClick={() => handleRemoveSkill(skillName)}
+                      >
+                        ✕
+                      </button>
+                    </Badge>
+                  ))}
                 </div>
+              </div>
+            )}
+
+            {availableSubSkills.length > 0 && (
+              <div className="space-y-2">
+                <Label>כישורי משנה</Label>
+                <Select
+                  value=""
+                  onValueChange={handleSubSkillSelect}
+                >
+                  <SelectTrigger>
+                    <SelectValue placeholder="בחר כישור משנה" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {availableSubSkills.map((subSkill) => (
+                      <SelectItem
+                        key={subSkill}
+                        value={subSkill}
+                        disabled={selectedSubSkills.includes(subSkill)}
+                      >
+                        {subSkill}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+
+                {selectedSubSkills.length > 0 && (
+                  <div className="flex flex-wrap gap-2 mt-2">
+                    {selectedSubSkills.map((subSkill) => (
+                      <Badge
+                        key={subSkill}
+                        variant="outline"
+                        className="text-sm"
+                      >
+                        {subSkill}
+                        <button
+                          type="button"
+                          className="mr-2 hover:text-destructive"
+                          onClick={() => handleRemoveSubSkill(subSkill)}
+                        >
+                          ✕
+                        </button>
+                      </Badge>
+                    ))}
+                  </div>
+                )}
               </div>
             )}
           </>
