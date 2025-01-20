@@ -10,7 +10,6 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { industriesData } from "@/data/skillsData";
-import { Check, Plus } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 
 interface SkillsExperienceFormProps {
@@ -28,6 +27,7 @@ export const SkillsExperienceForm = ({
 }: SkillsExperienceFormProps) => {
   const [selectedIndustry, setSelectedIndustry] = useState("");
   const [selectedRole, setSelectedRole] = useState("");
+  const [selectedSkill, setSelectedSkill] = useState("");
   const [selectedSkills, setSelectedSkills] = useState<string[]>([]);
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -42,10 +42,16 @@ export const SkillsExperienceForm = ({
   };
 
   const handleSkillSelect = (skill: string) => {
-    if (selectedSkills.includes(skill)) {
-      setSelectedSkills(selectedSkills.filter((s) => s !== skill));
-    } else {
+    setSelectedSkill(skill);
+    if (!selectedSkills.includes(skill)) {
       setSelectedSkills([...selectedSkills, skill]);
+    }
+  };
+
+  const handleRemoveSkill = (skill: string) => {
+    setSelectedSkills(selectedSkills.filter((s) => s !== skill));
+    if (selectedSkill === skill) {
+      setSelectedSkill("");
     }
   };
 
@@ -63,7 +69,12 @@ export const SkillsExperienceForm = ({
           <Label>תעשייה</Label>
           <Select
             value={selectedIndustry}
-            onValueChange={setSelectedIndustry}
+            onValueChange={(value) => {
+              setSelectedIndustry(value);
+              setSelectedRole("");
+              setSelectedSkill("");
+              setSelectedSkills([]);
+            }}
           >
             <SelectTrigger>
               <SelectValue placeholder="בחר תעשייה" />
@@ -83,7 +94,11 @@ export const SkillsExperienceForm = ({
             <Label>תפקיד</Label>
             <Select
               value={selectedRole}
-              onValueChange={setSelectedRole}
+              onValueChange={(value) => {
+                setSelectedRole(value);
+                setSelectedSkill("");
+                setSelectedSkills([]);
+              }}
             >
               <SelectTrigger>
                 <SelectValue placeholder="בחר תפקיד" />
@@ -100,37 +115,68 @@ export const SkillsExperienceForm = ({
         )}
 
         {selectedRole && (
-          <div className="space-y-4">
-            <Label>כישורים</Label>
-            <div className="grid grid-cols-2 gap-4">
-              {selectedRoleData?.skills.map((skill) => (
-                <div key={skill.name} className="space-y-2">
-                  <Button
-                    type="button"
-                    variant={selectedSkills.includes(skill.name) ? "default" : "outline"}
-                    className="w-full justify-start"
-                    onClick={() => handleSkillSelect(skill.name)}
-                  >
-                    {selectedSkills.includes(skill.name) ? (
-                      <Check className="mr-2 h-4 w-4" />
-                    ) : (
-                      <Plus className="mr-2 h-4 w-4" />
-                    )}
-                    {skill.name}
-                  </Button>
-                  {skill.subSkills && selectedSkills.includes(skill.name) && (
-                    <div className="flex flex-wrap gap-2 pr-4">
-                      {skill.subSkills.map((subSkill) => (
-                        <Badge key={subSkill} variant="secondary">
-                          {subSkill}
-                        </Badge>
-                      ))}
-                    </div>
-                  )}
-                </div>
-              ))}
+          <>
+            <div className="space-y-2">
+              <Label>כישורים</Label>
+              <Select
+                value={selectedSkill}
+                onValueChange={handleSkillSelect}
+              >
+                <SelectTrigger>
+                  <SelectValue placeholder="בחר כישור" />
+                </SelectTrigger>
+                <SelectContent>
+                  {selectedRoleData?.skills.map((skill) => (
+                    <SelectItem 
+                      key={skill.name} 
+                      value={skill.name}
+                      disabled={selectedSkills.includes(skill.name)}
+                    >
+                      {skill.name}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
             </div>
-          </div>
+
+            {selectedSkills.length > 0 && (
+              <div className="space-y-2">
+                <Label>כישורים נבחרים</Label>
+                <div className="flex flex-wrap gap-2">
+                  {selectedSkills.map((skillName) => {
+                    const skill = selectedRoleData?.skills.find(
+                      (s) => s.name === skillName
+                    );
+                    return (
+                      <div key={skillName} className="space-y-2">
+                        <div className="flex items-center gap-2">
+                          <Badge variant="secondary" className="text-sm">
+                            {skillName}
+                            <button
+                              type="button"
+                              className="ml-2 hover:text-destructive"
+                              onClick={() => handleRemoveSkill(skillName)}
+                            >
+                              ✕
+                            </button>
+                          </Badge>
+                        </div>
+                        {skill?.subSkills && (
+                          <div className="flex flex-wrap gap-2 pr-4">
+                            {skill.subSkills.map((subSkill) => (
+                              <Badge key={subSkill} variant="outline">
+                                {subSkill}
+                              </Badge>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            )}
+          </>
         )}
 
         <div className="flex gap-4">
