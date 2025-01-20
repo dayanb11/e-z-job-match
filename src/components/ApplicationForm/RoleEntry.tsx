@@ -9,6 +9,7 @@ import {
 import { Label } from "@/components/ui/label";
 import { SkillsSelect } from "./SkillsSelect";
 import { SubSkillsSelect } from "./SubSkillsSelect";
+import { Role } from "@/data/skillsData";
 
 interface RoleEntryProps {
   index: number;
@@ -18,7 +19,7 @@ interface RoleEntryProps {
     selectedSkills: string[];
     selectedSubSkills: string[];
   };
-  availableRoles: { title: string; skills: { name: string; subSkills: string[] }[] }[];
+  availableRoles: Role[];
   onRoleSelect: (value: string) => void;
   onSkillSelect: (skill: string) => void;
   onSubSkillSelect: (subSkill: string) => void;
