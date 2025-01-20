@@ -1,6 +1,6 @@
 export interface Skill {
   name: string;
-  subSkills?: string[];
+  subSkills: string[];  // No longer optional
 }
 
 export interface Role {
@@ -32,7 +32,10 @@ export const industriesData: Industry[] = [
             name: "כלי למידת מכונה",
             subSkills: ["TensorFlow", "PyTorch"],
           },
-          { name: "SQL" },
+          { 
+            name: "SQL",
+            subSkills: [], // Empty array instead of undefined
+          },
           {
             name: "ויזואליזציה",
             subSkills: ["Tableau", "Power BI"],
@@ -41,9 +44,18 @@ export const industriesData: Industry[] = [
             name: "ביג דאטה",
             subSkills: ["Hadoop", "Spark"],
           },
-          { name: "מודלים חזויים" },
-          { name: "ניקוי נתונים" },
-          { name: "בדיקות A/B" },
+          { 
+            name: "מודלים חזויים",
+            subSkills: [], // Empty array instead of undefined
+          },
+          { 
+            name: "ניקוי נתונים",
+            subSkills: [], // Empty array instead of undefined
+          },
+          { 
+            name: "בדיקות A/B",
+            subSkills: [], // Empty array instead of undefined
+          },
         ],
       },
     ],
