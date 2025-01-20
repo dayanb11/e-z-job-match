@@ -92,18 +92,20 @@ export const EducationCertificationsForm = ({
       <form onSubmit={handleSubmit} className="space-y-6">
         {(formData.educations || []).map((edu: Education, index: number) => (
           <div key={index} className="space-y-4 relative border rounded-lg p-4">
-            {index > 0 && (
-              <Button
-                type="button"
-                variant="ghost"
-                size="icon"
-                className="absolute top-2 left-2"
-                onClick={() => removeEducation(index)}
-              >
-                <X className="h-4 w-4" />
-              </Button>
-            )}
-            
+            <div className="flex justify-between items-center">
+              <h3 className="font-medium">השכלה {index + 1}</h3>
+              {index > 0 && (
+                <Button
+                  type="button"
+                  variant="ghost"
+                  size="icon"
+                  onClick={() => removeEducation(index)}
+                >
+                  <X className="h-4 w-4" />
+                </Button>
+              )}
+            </div>
+
             <div className="space-y-2">
               <Label htmlFor={`education-${index}`}>השכלה אקדמית</Label>
               <Select
