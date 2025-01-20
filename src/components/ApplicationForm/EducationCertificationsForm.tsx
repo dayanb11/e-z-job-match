@@ -15,6 +15,7 @@ import { Plus, X } from "lucide-react";
 interface Education {
   education: string;
   certifications: string;
+  institution: string;
   additionalInfo: string;
 }
 
@@ -57,6 +58,7 @@ export const EducationCertificationsForm = ({
     const newEducation = {
       education: "",
       certifications: "",
+      institution: "",
       additionalInfo: "",
     };
     setFormData({
@@ -80,6 +82,7 @@ export const EducationCertificationsForm = ({
           {
             education: "",
             certifications: "",
+            institution: "",
             additionalInfo: "",
           },
         ],
@@ -135,6 +138,17 @@ export const EducationCertificationsForm = ({
                 id={`certifications-${index}`}
                 value={edu.certifications}
                 onChange={(e) => handleChange(index, "certifications", e.target.value)}
+                className="min-h-[100px] rtl"
+                dir="rtl"
+              />
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor={`institution-${index}`}>מוסד לימודים</Label>
+              <Textarea
+                id={`institution-${index}`}
+                value={edu.institution}
+                onChange={(e) => handleChange(index, "institution", e.target.value)}
                 className="min-h-[100px] rtl"
                 dir="rtl"
               />
