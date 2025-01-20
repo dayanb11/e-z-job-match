@@ -130,7 +130,7 @@ export const EducationCertificationsForm = ({
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor={`certifications-${index}`}>תעודות והסמכות</Label>
+              <Label htmlFor={`certifications-${index}`}>שם התואר</Label>
               <Textarea
                 id={`certifications-${index}`}
                 value={edu.certifications}
