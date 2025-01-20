@@ -1,9 +1,15 @@
 import React from "react";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Card } from "@/components/ui/card";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 interface EducationCertificationsFormProps {
   onSubmit: () => void;
@@ -11,6 +17,14 @@ interface EducationCertificationsFormProps {
   formData: any;
   setFormData: (data: any) => void;
 }
+
+const academicDegrees = [
+  { value: "ba", label: "תואר ראשון" },
+  { value: "ma", label: "תואר שני" },
+  { value: "phd", label: "דוקטורט" },
+  { value: "diploma", label: "תעודה" },
+  { value: "other", label: "אחר" },
+];
 
 export const EducationCertificationsForm = ({
   onSubmit,
@@ -24,9 +38,13 @@ export const EducationCertificationsForm = ({
   };
 
   const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    e: React.ChangeEvent<HTMLTextAreaElement>
   ) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleDegreeChange = (value: string) => {
+    setFormData({ ...formData, education: value });
   };
 
   return (
@@ -34,15 +52,25 @@ export const EducationCertificationsForm = ({
       <form onSubmit={handleSubmit} className="space-y-6">
         <div className="space-y-2">
           <Label htmlFor="education">השכלה אקדמית</Label>
-          <Textarea
-            id="education"
-            name="education"
-            required
+          <Select
             value={formData.education || ""}
-            onChange={handleChange}
-            className="min-h-[100px] rtl"
-            dir="rtl"
-          />
+            onValueChange={handleDegreeChange}
+          >
+            <SelectTrigger className="w-full rtl text-right">
+              <SelectValue placeholder="בחר תואר" />
+            </SelectTrigger>
+            <SelectContent>
+              {academicDegrees.map((degree) => (
+                <SelectItem
+                  key={degree.value}
+                  value={degree.value}
+                  className="text-right"
+                >
+                  {degree.label}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
         </div>
 
         <div className="space-y-2">
