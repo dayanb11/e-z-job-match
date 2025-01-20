@@ -10,6 +10,13 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Plus, X } from "lucide-react";
+
+interface Education {
+  education: string;
+  certifications: string;
+  additionalInfo: string;
+}
 
 interface EducationCertificationsFormProps {
   onSubmit: () => void;
@@ -37,65 +44,122 @@ export const EducationCertificationsForm = ({
     onSubmit();
   };
 
-  const handleChange = (
-    e: React.ChangeEvent<HTMLTextAreaElement>
-  ) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+  const handleChange = (index: number, field: keyof Education, value: string) => {
+    const updatedEducations = [...(formData.educations || [])];
+    updatedEducations[index] = {
+      ...updatedEducations[index],
+      [field]: value,
+    };
+    setFormData({ ...formData, educations: updatedEducations });
   };
 
-  const handleDegreeChange = (value: string) => {
-    setFormData({ ...formData, education: value });
+  const addEducation = () => {
+    const newEducation = {
+      education: "",
+      certifications: "",
+      additionalInfo: "",
+    };
+    setFormData({
+      ...formData,
+      educations: [...(formData.educations || []), newEducation],
+    });
   };
+
+  const removeEducation = (index: number) => {
+    const updatedEducations = [...(formData.educations || [])];
+    updatedEducations.splice(index, 1);
+    setFormData({ ...formData, educations: updatedEducations });
+  };
+
+  // Initialize educations array if it doesn't exist
+  React.useEffect(() => {
+    if (!formData.educations || !formData.educations.length) {
+      setFormData({
+        ...formData,
+        educations: [
+          {
+            education: "",
+            certifications: "",
+            additionalInfo: "",
+          },
+        ],
+      });
+    }
+  }, []);
 
   return (
     <Card className="p-6 w-full max-w-2xl">
       <form onSubmit={handleSubmit} className="space-y-6">
-        <div className="space-y-2">
-          <Label htmlFor="education">השכלה אקדמית</Label>
-          <Select
-            value={formData.education || ""}
-            onValueChange={handleDegreeChange}
-          >
-            <SelectTrigger className="w-full rtl text-right">
-              <SelectValue placeholder="בחר תואר" />
-            </SelectTrigger>
-            <SelectContent>
-              {academicDegrees.map((degree) => (
-                <SelectItem
-                  key={degree.value}
-                  value={degree.value}
-                  className="text-right"
-                >
-                  {degree.label}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-        </div>
+        {(formData.educations || []).map((edu: Education, index: number) => (
+          <div key={index} className="space-y-4 relative border rounded-lg p-4">
+            {index > 0 && (
+              <Button
+                type="button"
+                variant="ghost"
+                size="icon"
+                className="absolute top-2 left-2"
+                onClick={() => removeEducation(index)}
+              >
+                <X className="h-4 w-4" />
+              </Button>
+            )}
+            
+            <div className="space-y-2">
+              <Label htmlFor={`education-${index}`}>השכלה אקדמית</Label>
+              <Select
+                value={edu.education}
+                onValueChange={(value) => handleChange(index, "education", value)}
+              >
+                <SelectTrigger className="w-full rtl text-right">
+                  <SelectValue placeholder="בחר תואר" />
+                </SelectTrigger>
+                <SelectContent>
+                  {academicDegrees.map((degree) => (
+                    <SelectItem
+                      key={degree.value}
+                      value={degree.value}
+                      className="text-right"
+                    >
+                      {degree.label}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
 
-        <div className="space-y-2">
-          <Label htmlFor="certifications">תעודות והסמכות</Label>
-          <Textarea
-            id="certifications"
-            name="certifications"
-            value={formData.certifications || ""}
-            onChange={handleChange}
-            className="min-h-[100px] rtl"
-            dir="rtl"
-          />
-        </div>
+            <div className="space-y-2">
+              <Label htmlFor={`certifications-${index}`}>תעודות והסמכות</Label>
+              <Textarea
+                id={`certifications-${index}`}
+                value={edu.certifications}
+                onChange={(e) => handleChange(index, "certifications", e.target.value)}
+                className="min-h-[100px] rtl"
+                dir="rtl"
+              />
+            </div>
 
-        <div className="space-y-2">
-          <Label htmlFor="additionalInfo">מידע נוסף</Label>
-          <Textarea
-            id="additionalInfo"
-            name="additionalInfo"
-            value={formData.additionalInfo || ""}
-            onChange={handleChange}
-            className="min-h-[100px] rtl"
-            dir="rtl"
-          />
-        </div>
+            <div className="space-y-2">
+              <Label htmlFor={`additionalInfo-${index}`}>מידע נוסף</Label>
+              <Textarea
+                id={`additionalInfo-${index}`}
+                value={edu.additionalInfo}
+                onChange={(e) => handleChange(index, "additionalInfo", e.target.value)}
+                className="min-h-[100px] rtl"
+                dir="rtl"
+              />
+            </div>
+          </div>
+        ))}
+
+        <Button
+          type="button"
+          variant="outline"
+          className="w-full"
+          onClick={addEducation}
+        >
+          <Plus className="ml-2" />
+          הוסף השכלה
+        </Button>
 
         <div className="flex gap-4">
           <Button type="button" variant="outline" onClick={onBack} className="flex-1">
