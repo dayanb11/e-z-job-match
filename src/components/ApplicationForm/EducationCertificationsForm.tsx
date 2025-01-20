@@ -34,6 +34,23 @@ const academicDegrees = [
   { value: "other", label: "אחר" },
 ];
 
+const academicInstitutions = [
+  { value: "tau", label: "אוניברסיטת תל אביב" },
+  { value: "huji", label: "האוניברסיטה העברית בירושלים" },
+  { value: "bgu", label: "אוניברסיטת בן-גוריון בנגב" },
+  { value: "technion", label: "הטכניון - מכון טכנולוגי לישראל" },
+  { value: "haifa", label: "אוניברסיטת חיפה" },
+  { value: "biu", label: "אוניברסיטת בר-אילן" },
+  { value: "weizmann", label: "מכון ויצמן למדע" },
+  { value: "openu", label: "האוניברסיטה הפתוחה" },
+  { value: "idc", label: "המרכז הבינתחומי הרצליה" },
+  { value: "colman", label: "המכללה למנהל" },
+  { value: "sapir", label: "מכללת ספיר" },
+  { value: "ruppin", label: "המרכז האקדמי רופין" },
+  { value: "mta", label: "המכללה האקדמית של תל-אביב-יפו" },
+  { value: "other", label: "אחר" },
+];
+
 export const EducationCertificationsForm = ({
   onSubmit,
   onBack,
@@ -73,7 +90,6 @@ export const EducationCertificationsForm = ({
     setFormData({ ...formData, educations: updatedEducations });
   };
 
-  // Initialize educations array if it doesn't exist
   React.useEffect(() => {
     if (!formData.educations || !formData.educations.length) {
       setFormData({
@@ -145,13 +161,25 @@ export const EducationCertificationsForm = ({
 
             <div className="space-y-2">
               <Label htmlFor={`institution-${index}`}>מוסד לימודים</Label>
-              <Textarea
-                id={`institution-${index}`}
+              <Select
                 value={edu.institution}
-                onChange={(e) => handleChange(index, "institution", e.target.value)}
-                className="min-h-[100px] rtl"
-                dir="rtl"
-              />
+                onValueChange={(value) => handleChange(index, "institution", value)}
+              >
+                <SelectTrigger className="w-full rtl text-right">
+                  <SelectValue placeholder="בחר מוסד לימודים" />
+                </SelectTrigger>
+                <SelectContent>
+                  {academicInstitutions.map((institution) => (
+                    <SelectItem
+                      key={institution.value}
+                      value={institution.value}
+                      className="text-right"
+                    >
+                      {institution.label}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
             </div>
 
             <div className="space-y-2">
