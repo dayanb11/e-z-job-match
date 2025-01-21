@@ -9,7 +9,12 @@ export const supabase = createClient(supabaseUrl, supabaseKey);
 export const saveApplication = async (application: Omit<Application, 'id' | 'createdAt'>) => {
   const { data, error } = await supabase
     .from('applications')
-    .insert([application])
+    .insert({
+      personal_details: application.personalDetails,
+      industry: application.industry,
+      roles: application.roles,
+      educations: application.educations
+    })
     .select()
     .single();
 
