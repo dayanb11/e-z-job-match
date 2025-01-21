@@ -9,29 +9,6 @@ export const supabase = createClient(supabaseUrl, supabaseKey);
 // Test function to verify the connection and table structure
 export const testSupabaseConnection = async () => {
   try {
-    // First, try to create the table if it doesn't exist
-    const { error: createError } = await supabase.rpc('create_applications_table');
-    if (createError) {
-      console.error('Error creating table:', createError);
-      
-      // If there's an error, try to create the table directly
-      const { error: directCreateError } = await supabase.query(`
-        CREATE TABLE IF NOT EXISTS applications (
-          id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
-          personal_details JSONB NOT NULL,
-          industry TEXT,
-          roles JSONB,
-          educations JSONB,
-          created_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now()) NOT NULL
-        );
-      `);
-      
-      if (directCreateError) {
-        console.error('Error in direct table creation:', directCreateError);
-        throw directCreateError;
-      }
-    }
-
     // Test data
     const testData = {
       personal_details: {
@@ -75,8 +52,6 @@ export const testSupabaseConnection = async () => {
 };
 
 export const saveApplication = async (application: Omit<Application, 'id' | 'createdAt'>) => {
-  console.log('Saving application:', application);
-  
   try {
     const { data, error } = await supabase
       .from('applications')
