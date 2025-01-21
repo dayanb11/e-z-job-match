@@ -3,10 +3,12 @@ import { PersonalDetailsForm } from "./PersonalDetailsForm";
 import { SkillsExperienceForm } from "./SkillsExperienceForm";
 import { EducationCertificationsForm } from "./EducationCertificationsForm";
 import { useToast } from "@/components/ui/use-toast";
+import { saveApplication } from "@/lib/supabase";
+import { Application } from "@/types/application";
 
 export const ApplicationForm = () => {
   const [step, setStep] = useState(1);
-  const [formData, setFormData] = useState({});
+  const [formData, setFormData] = useState<Partial<Application>>({});
   const { toast } = useToast();
 
   const handleNext = () => {
@@ -17,12 +19,34 @@ export const ApplicationForm = () => {
     setStep(step - 1);
   };
 
-  const handleSubmit = () => {
-    console.log("Form submitted:", formData);
-    toast({
-      title: "הטופס נשלח בהצלחה",
-      description: "נחזור אליך בהקדם",
-    });
+  const handleSubmit = async () => {
+    try {
+      const application = {
+        personalDetails: {
+          fullName: formData.personalDetails?.fullName || "",
+          email: formData.personalDetails?.email || "",
+          phone: formData.personalDetails?.phone || "",
+          location: formData.personalDetails?.location || "",
+        },
+        industry: formData.industry || "",
+        roles: formData.roles || [],
+        educations: formData.educations || [],
+      };
+
+      await saveApplication(application);
+      
+      toast({
+        title: "הטופס נשלח בהצלחה",
+        description: "הנתונים נשמרו במערכת",
+      });
+    } catch (error) {
+      console.error('Error saving application:', error);
+      toast({
+        title: "שגיאה בשליחת הטופס",
+        description: "אנא נסה שוב מאוחר יותר",
+        variant: "destructive",
+      });
+    }
   };
 
   return (
