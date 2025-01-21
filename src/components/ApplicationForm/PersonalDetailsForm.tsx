@@ -3,11 +3,12 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card } from "@/components/ui/card";
+import { Application } from "@/types/application";
 
 interface PersonalDetailsFormProps {
   onNext: () => void;
-  formData: any;
-  setFormData: (data: any) => void;
+  formData: Partial<Application>;
+  setFormData: (data: Partial<Application>) => void;
 }
 
 export const PersonalDetailsForm = ({ onNext, formData, setFormData }: PersonalDetailsFormProps) => {
@@ -17,7 +18,13 @@ export const PersonalDetailsForm = ({ onNext, formData, setFormData }: PersonalD
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    setFormData({
+      ...formData,
+      personalDetails: {
+        ...formData.personalDetails,
+        [e.target.name]: e.target.value,
+      },
+    });
   };
 
   return (
@@ -29,7 +36,7 @@ export const PersonalDetailsForm = ({ onNext, formData, setFormData }: PersonalD
             id="fullName"
             name="fullName"
             required
-            value={formData.fullName || ""}
+            value={formData.personalDetails?.fullName || ""}
             onChange={handleChange}
             className="rtl"
             dir="rtl"
@@ -43,7 +50,7 @@ export const PersonalDetailsForm = ({ onNext, formData, setFormData }: PersonalD
             name="email"
             type="email"
             required
-            value={formData.email || ""}
+            value={formData.personalDetails?.email || ""}
             onChange={handleChange}
             className="rtl"
             dir="rtl"
@@ -57,7 +64,7 @@ export const PersonalDetailsForm = ({ onNext, formData, setFormData }: PersonalD
             name="phone"
             type="tel"
             required
-            value={formData.phone || ""}
+            value={formData.personalDetails?.phone || ""}
             onChange={handleChange}
             className="rtl"
             dir="rtl"
@@ -70,7 +77,7 @@ export const PersonalDetailsForm = ({ onNext, formData, setFormData }: PersonalD
             id="location"
             name="location"
             required
-            value={formData.location || ""}
+            value={formData.personalDetails?.location || ""}
             onChange={handleChange}
             className="rtl"
             dir="rtl"

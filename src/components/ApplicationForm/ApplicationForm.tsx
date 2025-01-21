@@ -8,7 +8,14 @@ import { Application } from "@/types/application";
 
 export const ApplicationForm = () => {
   const [step, setStep] = useState(1);
-  const [formData, setFormData] = useState<Partial<Application>>({});
+  const [formData, setFormData] = useState<Partial<Application>>({
+    personalDetails: {
+      fullName: "",
+      email: "",
+      phone: "",
+      location: "",
+    },
+  });
   const { toast } = useToast();
 
   const handleNext = () => {
@@ -25,10 +32,10 @@ export const ApplicationForm = () => {
       
       const application = {
         personalDetails: {
-          fullName: formData.fullName || "",
-          email: formData.email || "",
-          phone: formData.phone || "",
-          location: formData.location || "",
+          fullName: formData.personalDetails?.fullName || "",
+          email: formData.personalDetails?.email || "",
+          phone: formData.personalDetails?.phone || "",
+          location: formData.personalDetails?.location || "",
         },
         industry: formData.industry || "",
         roles: formData.roles || [],
