@@ -8,41 +8,61 @@ export const supabase = createClient(supabaseUrl, supabaseKey);
 
 // Test function to verify the connection and table structure
 export const testSupabaseConnection = async () => {
-  const testData = {
-    personalDetails: {
-      fullName: "ישראל ישראלי",
-      email: "test@example.com",
-      phone: "0501234567",
-      location: "תל אביב"
-    },
-    industry: "הייטק",
-    roles: [
-      {
+  try {
+    // First, try to create the table if it doesn't exist
+    const { error: createError } = await supabase.rpc('create_applications_table');
+    if (createError) {
+      console.error('Error creating table:', createError);
+      
+      // If there's an error, try to create the table directly
+      const { error: directCreateError } = await supabase.query(`
+        CREATE TABLE IF NOT EXISTS applications (
+          id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+          personal_details JSONB NOT NULL,
+          industry TEXT,
+          roles JSONB,
+          educations JSONB,
+          created_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now()) NOT NULL
+        );
+      `);
+      
+      if (directCreateError) {
+        console.error('Error in direct table creation:', directCreateError);
+        throw directCreateError;
+      }
+    }
+
+    // Test data
+    const testData = {
+      personal_details: {
+        fullName: "ישראל ישראלי",
+        email: "test@example.com",
+        phone: "0501234567",
+        location: "תל אביב"
+      },
+      industry: "הייטק",
+      roles: [{
         role: "מפתח תוכנה",
         skills: ["JavaScript", "React"],
         subSkills: ["TypeScript", "Node.js"]
-      }
-    ],
-    educations: [
-      {
-        education: "ba",
-        certifications: "תואר ראשון במדעי המחשב",
-        institution: "tau",
+      }],
+      educations: [{
+        education: "תואר ראשון",
+        certifications: "מדעי המחשב",
+        institution: "אוניברסיטת תל אביב",
         additionalInfo: "סיום בהצטיינות"
-      }
-    ]
-  };
+      }]
+    };
 
-  try {
-    console.log('Attempting to save test data:', testData);
+    // Try to insert test data
     const { data, error } = await supabase
       .from('applications')
       .insert(testData)
-      .select('*')
+      .select()
       .single();
 
     if (error) {
-      console.error('Error in test connection:', error);
+      console.error('Error inserting test data:', error);
       throw error;
     }
 
@@ -60,8 +80,13 @@ export const saveApplication = async (application: Omit<Application, 'id' | 'cre
   try {
     const { data, error } = await supabase
       .from('applications')
-      .insert(application)
-      .select('*')
+      .insert({
+        personal_details: application.personalDetails,
+        industry: application.industry,
+        roles: application.roles,
+        educations: application.educations
+      })
+      .select()
       .single();
 
     if (error) {
