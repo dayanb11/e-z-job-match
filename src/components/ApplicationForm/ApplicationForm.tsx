@@ -21,12 +21,14 @@ export const ApplicationForm = () => {
 
   const handleSubmit = async () => {
     try {
+      console.log('Form data before submission:', formData);
+      
       const application = {
         personalDetails: {
-          fullName: formData.personalDetails?.fullName || "",
-          email: formData.personalDetails?.email || "",
-          phone: formData.personalDetails?.phone || "",
-          location: formData.personalDetails?.location || "",
+          fullName: formData.fullName || "",
+          email: formData.email || "",
+          phone: formData.phone || "",
+          location: formData.location || "",
         },
         industry: formData.industry || "",
         roles: formData.roles || [],

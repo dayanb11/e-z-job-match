@@ -7,17 +7,25 @@ const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZS
 export const supabase = createClient(supabaseUrl, supabaseKey);
 
 export const saveApplication = async (application: Omit<Application, 'id' | 'createdAt'>) => {
+  console.log('Saving application:', application);
+  
   const { data, error } = await supabase
     .from('applications')
-    .insert({
-      personal_details: application.personalDetails,
-      industry: application.industry,
-      roles: application.roles,
-      educations: application.educations
-    })
-    .select()
-    .single();
+    .insert([
+      {
+        personal_details: application.personalDetails,
+        industry: application.industry,
+        roles: application.roles,
+        educations: application.educations
+      }
+    ])
+    .select();
 
-  if (error) throw error;
+  if (error) {
+    console.error('Error saving application:', error);
+    throw error;
+  }
+
+  console.log('Application saved successfully:', data);
   return data;
 };
