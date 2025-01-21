@@ -11,15 +11,14 @@ export const saveApplication = async (application: Omit<Application, 'id' | 'cre
   
   const { data, error } = await supabase
     .from('applications')
-    .insert([
-      {
-        personal_details: application.personalDetails,
-        industry: application.industry,
-        roles: application.roles,
-        educations: application.educations
-      }
-    ])
-    .select();
+    .insert({
+      personal_details: application.personalDetails,
+      industry: application.industry,
+      roles: application.roles,
+      educations: application.educations
+    })
+    .select('*')
+    .single();
 
   if (error) {
     console.error('Error saving application:', error);
