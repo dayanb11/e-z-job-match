@@ -17,7 +17,7 @@ const Index = () => {
             className="h-12 w-auto cursor-pointer"
           />
           <span className="absolute left-1/2 -translate-x-1/2 -top-8 bg-black text-white px-2 py-1 rounded text-sm opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">
-            לחץ לביקור באתר
+            https://lovable.dev/projects/265f89ac-e251-4861-b56b-aed6342b630a
           </span>
         </a>
         <Link 
