@@ -27,22 +27,23 @@ export const RoleSelector = ({
   availableRoles,
   onRoleSelect,
 }: RoleSelectorProps) => {
+  const [open, setOpen] = useState(false);
   const [searchValue, setSearchValue] = useState("");
 
-  const filteredRoles = availableRoles.filter((role) =>
+  const filteredRoles = (availableRoles || []).filter((role) =>
     role.title
       .toLowerCase()
       .slice(0, 2)
-      .includes(searchValue.toLowerCase().slice(0, 2))
+      .includes((searchValue || "").toLowerCase().slice(0, 2))
   );
 
   return (
-    <Popover>
+    <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
         <Button
           variant="outline"
           role="combobox"
-          aria-expanded={true}
+          aria-expanded={open}
           className="w-full justify-between text-right"
         >
           {selectedRole || "בחר תפקיד"}
@@ -53,17 +54,19 @@ export const RoleSelector = ({
         <Command dir="rtl" shouldFilter={false}>
           <CommandInput 
             placeholder="חפש תפקיד..." 
-            value={searchValue}
+            value={searchValue || ""}
             onValueChange={setSearchValue}
           />
           <CommandEmpty>לא נמצאו תוצאות</CommandEmpty>
           <CommandGroup className="max-h-[300px] overflow-auto">
-            {filteredRoles.map((role) => (
+            {(filteredRoles || []).map((role) => (
               <CommandItem
                 key={role.title}
                 value={role.title}
                 onSelect={(currentValue) => {
                   onRoleSelect(currentValue);
+                  setOpen(false);
+                  setSearchValue("");
                 }}
                 className="text-right"
               >

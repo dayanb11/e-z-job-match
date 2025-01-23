@@ -33,7 +33,7 @@ export const IndustrySelect = ({
     industry.name
       .toLowerCase()
       .slice(0, 2)
-      .includes(searchValue.toLowerCase().slice(0, 2))
+      .includes((searchValue || "").toLowerCase().slice(0, 2))
   );
 
   return (
@@ -57,18 +57,19 @@ export const IndustrySelect = ({
           <Command dir="rtl" shouldFilter={false}>
             <CommandInput 
               placeholder="חפש תעשייה..." 
-              value={searchValue}
+              value={searchValue || ""}
               onValueChange={setSearchValue}
             />
             <CommandEmpty>לא נמצאו תוצאות</CommandEmpty>
             <CommandGroup className="max-h-[300px] overflow-auto">
-              {filteredIndustries.map((industry) => (
+              {(filteredIndustries || []).map((industry) => (
                 <CommandItem
                   key={industry.name}
                   value={industry.name}
                   onSelect={(currentValue) => {
                     onIndustryChange(currentValue);
                     setOpen(false);
+                    setSearchValue("");
                   }}
                   className="text-right"
                 >
