@@ -28,257 +28,53 @@ export const industriesData: Industry[] = [
   },
   {
     name: "אבטחת מידע וסייבר",
-    roles: [],
-  },
-  {
-    name: "אדמיניסטרציה",
-    roles: [],
-  },
-  {
-    name: "אומנות, בידור ומדיה",
-    roles: [],
-  },
-  {
-    name: "אופטיקה",
-    roles: [],
-  },
-  {
-    name: "אופנה וטקסטיל",
-    roles: [],
-  },
-  {
-    name: "אחזקה ואנשי מקצוע",
-    roles: [],
-  },
-  {
-    name: "אינטרנט ודיגיטל",
-    roles: [],
-  },
-  {
-    name: "ביוטכנולוגיה",
-    roles: [],
-  },
-  {
-    name: "ביטוח",
-    roles: [],
-  },
-  {
-    name: "בכירים",
-    roles: [],
-  },
-  {
-    name: "בניין, בינוי ותשתיות",
-    roles: [],
-  },
-  {
-    name: "בתי קפה, מסעדות ואירועים",
-    roles: [],
-  },
-  {
-    name: "דאטה",
     roles: [
       {
-        title: "מדען נתונים",
+        title: "אנליסט סייבר",
         skills: [
           {
-            name: "סטטיסטיקה",
-            subSkills: ["הסתברות", "בדיקות השערות"],
+            name: "פרוטוקולי אבטחה",
+            subSkills: ["TLS", "SSL"],
           },
           {
-            name: "ספריות נתונים",
-            subSkills: ["Pandas", "NumPy"],
-          },
-          {
-            name: "כלי למידת מכונה",
-            subSkills: ["TensorFlow", "PyTorch"],
-          },
-          {
-            name: "פייתון/R",
+            name: "זיהוי איומים",
             subSkills: [],
           },
           {
-            name: "SQL",
+            name: "הקשחת מערכות",
             subSkills: [],
           },
           {
-            name: "ויזואליזציה",
-            subSkills: ["Tableau", "Power BI"],
+            name: "כלי SIEM",
+            subSkills: ["Splunk", "QRadar"],
           },
           {
-            name: "ביג דאטה",
-            subSkills: ["Hadoop", "Spark"],
-          },
-          {
-            name: "מודלים חזויים",
+            name: "ניתוח לוגים",
             subSkills: [],
           },
           {
-            name: "ניקוי נתונים",
+            name: "תקני תאימות",
+            subSkills: ["ISO 27001", "GDPR"],
+          },
+          {
+            name: "חומות אש",
             subSkills: [],
           },
           {
-            name: "בדיקות A/B",
+            name: "סריקות פגיעויות",
+            subSkills: [],
+          },
+          {
+            name: "רשתות מאובטחות",
+            subSkills: ["VPN", "IPS/IDS"],
+          },
+          {
+            name: "מדיניות אבטחה",
             subSkills: [],
           },
         ],
       },
     ],
-  },
-  {
-    name: "הוראה, חינוך והדרכה",
-    roles: [],
-  },
-  {
-    name: "הנדסה",
-    roles: [],
-  },
-  {
-    name: "התנדבות",
-    roles: [],
-  },
-  {
-    name: "חומרה",
-    roles: [],
-  },
-  {
-    name: "חשמל ואלקטרוניקה",
-    roles: [],
-  },
-  {
-    name: "יבוא יצוא",
-    roles: [],
-  },
-  {
-    name: "יופי, טיפוח וספא",
-    roles: [],
-  },
-  {
-    name: "יזמות",
-    roles: [],
-  },
-  {
-    name: "ייצור ותעשייה",
-    roles: [],
-  },
-  {
-    name: "כללי וללא ניסיון",
-    roles: [],
-  },
-  {
-    name: "כספים וכלכלה",
-    roles: [],
-  },
-  {
-    name: "מדעי החברה",
-    roles: [],
-  },
-  {
-    name: "מדעי החיים, טבע וחקלאות",
-    roles: [],
-  },
-  {
-    name: "מדעים מדוייקים",
-    roles: [],
-  },
-  {
-    name: "מוצר",
-    roles: [],
-  },
-  {
-    name: "מחסנאות",
-    roles: [],
-  },
-  {
-    name: "מחשבים ורשתות",
-    roles: [],
-  },
-  {
-    name: "מכירות",
-    roles: [],
-  },
-  {
-    name: "מערכות מידע",
-    roles: [],
-  },
-  {
-    name: "מקצועות דת",
-    roles: [],
-  },
-  {
-    name: "משאבי אנוש",
-    roles: [],
-  },
-  {
-    name: "משפטים",
-    roles: [],
-  },
-  {
-    name: "נדל\"ן",
-    roles: [],
-  },
-  {
-    name: "נהגים שליחים והפצה",
-    roles: [],
-  },
-  {
-    name: "ניהול ביניים",
-    roles: [],
-  },
-  {
-    name: "ניתוח מערכות",
-    roles: [],
-  },
-  {
-    name: "סטודנטים",
-    roles: [],
-  },
-  {
-    name: "ספורט, כושר ואורח חיים",
-    roles: [],
-  },
-  {
-    name: "עבודה בחו\"ל",
-    roles: [],
-  },
-  {
-    name: "עבודה ראשונה",
-    roles: [],
-  },
-  {
-    name: "עיצוב",
-    roles: [],
-  },
-  {
-    name: "עריכה, תוכן וספרות",
-    roles: [],
-  },
-  {
-    name: "פרסום שיווק ויחסי ציבור",
-    roles: [],
-  },
-  {
-    name: "קמעונאות",
-    roles: [],
-  },
-  {
-    name: "רכב ומכונאות",
-    roles: [],
-  },
-  {
-    name: "רכש ולוגיסטיקה",
-    roles: [],
-  },
-  {
-    name: "רפואה ופארמה",
-    roles: [],
-  },
-  {
-    name: "רפואה משלימה",
-    roles: [],
-  },
-  {
-    name: "שירות לקוחות",
-    roles: [],
   },
   {
     name: "תוכנה",
@@ -458,51 +254,6 @@ export const industriesData: Industry[] = [
           },
           {
             name: "שיפור ביצועים",
-            subSkills: [],
-          },
-        ],
-      },
-      {
-        title: "אנליסט סייבר",
-        skills: [
-          {
-            name: "פרוטוקולי אבטחה",
-            subSkills: ["TLS", "SSL"],
-          },
-          {
-            name: "זיהוי איומים",
-            subSkills: [],
-          },
-          {
-            name: "הקשחת מערכות",
-            subSkills: [],
-          },
-          {
-            name: "כלי SIEM",
-            subSkills: ["Splunk", "QRadar"],
-          },
-          {
-            name: "ניתוח לוגים",
-            subSkills: [],
-          },
-          {
-            name: "תקני תאימות",
-            subSkills: ["ISO 27001", "GDPR"],
-          },
-          {
-            name: "חומות אש",
-            subSkills: [],
-          },
-          {
-            name: "סריקות פגיעויות",
-            subSkills: [],
-          },
-          {
-            name: "רשתות מאובטחות",
-            subSkills: ["VPN", "IPS/IDS"],
-          },
-          {
-            name: "מדיניות אבטחה",
             subSkills: [],
           },
         ],
