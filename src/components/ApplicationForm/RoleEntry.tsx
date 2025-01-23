@@ -16,8 +16,8 @@ interface RoleEntryProps {
   entry: {
     id: number;
     selectedRole: string;
-    selectedSkills: string[];
-    selectedSubSkills: string[];
+    selectedSkills: { name: string; level: number }[];
+    selectedSubSkills: { name: string; level: number }[];
   };
   availableRoles: Role[];
   onRoleSelect: (value: string) => void;
@@ -26,6 +26,8 @@ interface RoleEntryProps {
   onRemoveSkill: (skill: string) => void;
   onRemoveSubSkill: (subSkill: string) => void;
   onRemoveRole: () => void;
+  onSkillLevelChange: (skillName: string, level: number) => void;
+  onSubSkillLevelChange: (subSkillName: string, level: number) => void;
   isRemovable: boolean;
 }
 
@@ -39,6 +41,8 @@ export const RoleEntry = ({
   onRemoveSkill,
   onRemoveSubSkill,
   onRemoveRole,
+  onSkillLevelChange,
+  onSubSkillLevelChange,
   isRemovable,
 }: RoleEntryProps) => {
   const selectedRoleData = availableRoles.find(
@@ -46,11 +50,11 @@ export const RoleEntry = ({
   );
 
   const availableSubSkills = entry.selectedSkills
-    .map((skillName) => {
-      const skill = selectedRoleData?.skills.find(
-        (s) => s.name === skillName
+    .map((skill) => {
+      const skillData = selectedRoleData?.skills.find(
+        (s) => s.name === skill.name
       );
-      return skill?.subSkills || [];
+      return skillData?.subSkills || [];
     })
     .flat();
 
@@ -93,6 +97,7 @@ export const RoleEntry = ({
             selectedSkills={entry.selectedSkills}
             onSkillSelect={onSkillSelect}
             onRemoveSkill={onRemoveSkill}
+            onSkillLevelChange={onSkillLevelChange}
           />
 
           <SubSkillsSelect
@@ -100,6 +105,7 @@ export const RoleEntry = ({
             selectedSubSkills={entry.selectedSubSkills}
             onSubSkillSelect={onSubSkillSelect}
             onRemoveSubSkill={onRemoveSubSkill}
+            onSubSkillLevelChange={onSubSkillLevelChange}
           />
         </>
       )}

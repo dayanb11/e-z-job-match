@@ -23,8 +23,8 @@ export const SkillsExperienceForm = ({
     {
       id: 0,
       selectedRole: "",
-      selectedSkills: [] as string[],
-      selectedSubSkills: [] as string[],
+      selectedSkills: [] as { name: string; level: number }[],
+      selectedSubSkills: [] as { name: string; level: number }[],
     },
   ]);
 
@@ -50,7 +50,6 @@ export const SkillsExperienceForm = ({
 
   const handleIndustryChange = (value: string) => {
     setSelectedIndustry(value);
-    // Reset all role entries when industry changes
     setRoleEntries([
       {
         id: 0,
@@ -108,22 +107,25 @@ export const SkillsExperienceForm = ({
                 }}
                 onSkillSelect={(skill) => {
                   const updatedEntries = [...roleEntries];
-                  if (!updatedEntries[index].selectedSkills.includes(skill)) {
+                  if (!updatedEntries[index].selectedSkills.some(s => s.name === skill)) {
                     updatedEntries[index] = {
                       ...updatedEntries[index],
-                      selectedSkills: [...updatedEntries[index].selectedSkills, skill],
+                      selectedSkills: [
+                        ...updatedEntries[index].selectedSkills,
+                        { name: skill, level: 50 }, // Default level
+                      ],
                     };
                     setRoleEntries(updatedEntries);
                   }
                 }}
                 onSubSkillSelect={(subSkill) => {
                   const updatedEntries = [...roleEntries];
-                  if (!updatedEntries[index].selectedSubSkills.includes(subSkill)) {
+                  if (!updatedEntries[index].selectedSubSkills.some(s => s.name === subSkill)) {
                     updatedEntries[index] = {
                       ...updatedEntries[index],
                       selectedSubSkills: [
                         ...updatedEntries[index].selectedSubSkills,
-                        subSkill,
+                        { name: subSkill, level: 50 }, // Default level
                       ],
                     };
                     setRoleEntries(updatedEntries);
@@ -134,10 +136,9 @@ export const SkillsExperienceForm = ({
                   updatedEntries[index] = {
                     ...updatedEntries[index],
                     selectedSkills: updatedEntries[index].selectedSkills.filter(
-                      (s) => s !== skill
+                      (s) => s.name !== skill
                     ),
-                    // Clear subskills when removing a skill
-                    selectedSubSkills: [],
+                    selectedSubSkills: [], // Clear subskills when removing a skill
                   };
                   setRoleEntries(updatedEntries);
                 }}
@@ -146,13 +147,39 @@ export const SkillsExperienceForm = ({
                   updatedEntries[index] = {
                     ...updatedEntries[index],
                     selectedSubSkills: updatedEntries[index].selectedSubSkills.filter(
-                      (ss) => ss !== subSkill
+                      (ss) => ss.name !== subSkill
                     ),
                   };
                   setRoleEntries(updatedEntries);
                 }}
                 onRemoveRole={() => {
                   setRoleEntries(roleEntries.filter((_, i) => i !== index));
+                }}
+                onSkillLevelChange={(skillName, level) => {
+                  const updatedEntries = [...roleEntries];
+                  updatedEntries[index] = {
+                    ...updatedEntries[index],
+                    selectedSkills: updatedEntries[index].selectedSkills.map(
+                      (skill) =>
+                        skill.name === skillName
+                          ? { ...skill, level }
+                          : skill
+                    ),
+                  };
+                  setRoleEntries(updatedEntries);
+                }}
+                onSubSkillLevelChange={(subSkillName, level) => {
+                  const updatedEntries = [...roleEntries];
+                  updatedEntries[index] = {
+                    ...updatedEntries[index],
+                    selectedSubSkills: updatedEntries[index].selectedSubSkills.map(
+                      (subSkill) =>
+                        subSkill.name === subSkillName
+                          ? { ...subSkill, level }
+                          : subSkill
+                    ),
+                  };
+                  setRoleEntries(updatedEntries);
                 }}
               />
             ))}

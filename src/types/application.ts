@@ -7,8 +7,8 @@ export interface PersonalDetails {
 
 export interface Role {
   role: string;
-  skills: string[];
-  subSkills: string[];
+  skills: { name: string; level: number }[];
+  subSkills: { name: string; level: number }[];
 }
 
 export interface Education {
