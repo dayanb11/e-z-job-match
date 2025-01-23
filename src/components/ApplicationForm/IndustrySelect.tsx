@@ -29,14 +29,12 @@ export const IndustrySelect = ({
   const [open, setOpen] = useState(false);
   const [searchValue, setSearchValue] = useState("");
 
-  // Make sure industriesData is an array and has items
-  const industries = Array.isArray(industriesData) && industriesData.length > 0 
-    ? industriesData 
-    : [{ name: "אין תעשיות זמינות" }];
+  // Ensure we have a valid array of industries
+  const industries = Array.isArray(industriesData) ? industriesData : [];
 
-  // Filter industries based on search
+  // Filter industries based on search, with proper null checks
   const filteredIndustries = industries.filter((industry) => {
-    if (!searchValue) return true;
+    if (!searchValue || !industry?.name) return true;
     return industry.name.toLowerCase().includes(searchValue.toLowerCase());
   });
 
@@ -56,35 +54,41 @@ export const IndustrySelect = ({
           </Button>
         </PopoverTrigger>
         <PopoverContent className="w-full p-0" align="start">
-          <Command dir="rtl">
+          <Command>
             <CommandInput 
               placeholder="חפש תעשייה..." 
               value={searchValue}
               onValueChange={setSearchValue}
               className="text-right"
             />
-            <CommandEmpty>לא נמצאו תוצאות</CommandEmpty>
+            <CommandEmpty className="text-right">לא נמצאו תוצאות</CommandEmpty>
             <CommandGroup className="max-h-[200px] overflow-y-auto">
-              {filteredIndustries.map((industry) => (
-                <CommandItem
-                  key={industry.name}
-                  value={industry.name}
-                  onSelect={(currentValue) => {
-                    onIndustryChange(currentValue);
-                    setOpen(false);
-                    setSearchValue("");
-                  }}
-                  className="text-right"
-                >
-                  <Check
-                    className={cn(
-                      "mr-2 h-4 w-4",
-                      selectedIndustry === industry.name ? "opacity-100" : "opacity-0"
-                    )}
-                  />
-                  {industry.name}
+              {filteredIndustries.length > 0 ? (
+                filteredIndustries.map((industry) => (
+                  <CommandItem
+                    key={industry.name}
+                    value={industry.name}
+                    onSelect={(currentValue) => {
+                      onIndustryChange(currentValue);
+                      setOpen(false);
+                      setSearchValue("");
+                    }}
+                    className="text-right"
+                  >
+                    <Check
+                      className={cn(
+                        "mr-2 h-4 w-4",
+                        selectedIndustry === industry.name ? "opacity-100" : "opacity-0"
+                      )}
+                    />
+                    {industry.name}
+                  </CommandItem>
+                ))
+              ) : (
+                <CommandItem value="" className="text-right text-muted-foreground">
+                  אין תעשיות זמינות
                 </CommandItem>
-              ))}
+              )}
             </CommandGroup>
           </Command>
         </PopoverContent>
