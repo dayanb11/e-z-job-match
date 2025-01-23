@@ -15,7 +15,7 @@ const Index = () => {
       <div className="max-w-7xl mx-auto">
         {/* Header Section */}
         <div className="text-center mb-16">
-          <div className="inline-block border rounded-lg p-4 mb-4">
+          <div className="inline-block border-[#D3E4FD] border-2 rounded-lg p-4 mb-4">
             <h1 className="text-5xl font-bold text-gray-900 mb-4">
               E.Z Job Match
             </h1>
@@ -41,15 +41,15 @@ const Index = () => {
 
         {/* Problem & Solution Section */}
         <div className="grid md:grid-cols-2 gap-8 mb-16">
-          <div className="bg-white rounded-lg p-8 shadow-sm border border-gray-200">
-            <h2 className="text-2xl font-bold text-red-500 mb-4 border rounded-lg p-3 inline-block">הבעיה</h2>
-            <p className="text-gray-700 text-lg leading-relaxed border rounded-lg p-4">
+          <div className="bg-white rounded-lg p-8 shadow-sm border-2 border-[#D3E4FD]">
+            <h2 className="text-2xl font-bold text-red-500 mb-4 border-2 border-[#D3E4FD] rounded-lg p-3 inline-block">הבעיה</h2>
+            <p className="text-gray-700 text-lg leading-relaxed border-2 border-[#D3E4FD] rounded-lg p-4">
               תהליכי הגיוס הקיימים אינם יעילים ויוצרים עלויות גבוהות וגיבורי משאבים למעסיקים עקב גיוסים לא מתאימים מצד אחד וטיפול בקרב מחפשי העבודה מצד שני
             </p>
           </div>
-          <div className="bg-white rounded-lg p-8 shadow-sm border border-gray-200">
-            <h2 className="text-2xl font-bold text-green-500 mb-4 border rounded-lg p-3 inline-block">הפתרון</h2>
-            <p className="text-gray-700 text-lg leading-relaxed border rounded-lg p-4">
+          <div className="bg-white rounded-lg p-8 shadow-sm border-2 border-[#D3E4FD]">
+            <h2 className="text-2xl font-bold text-green-500 mb-4 border-2 border-[#D3E4FD] rounded-lg p-3 inline-block">הפתרון</h2>
+            <p className="text-gray-700 text-lg leading-relaxed border-2 border-[#D3E4FD] rounded-lg p-4">
               E.Z Job Match משנה את עולם הגיוס על ידי התמקדות בכישורים במקום בתיאורי משרות מסורתיים
             </p>
           </div>
@@ -57,30 +57,30 @@ const Index = () => {
 
         {/* Features Section */}
         <div className="grid md:grid-cols-4 gap-6">
-          <Card className="p-6">
-            <h3 className="text-xl font-bold text-gray-900 mb-3 border rounded-lg p-2">התמקדות בכישורים</h3>
-            <p className="text-gray-600 border rounded-lg p-3">
+          <Card className="p-6 border-2 border-[#D3E4FD]">
+            <h3 className="text-xl font-bold text-gray-900 mb-3 border-2 border-[#D3E4FD] rounded-lg p-2">התמקדות בכישורים</h3>
+            <p className="text-gray-600 border-2 border-[#D3E4FD] rounded-lg p-3">
               התמקדות בכישורים ולא בתוארי תפקידים, מאפשרת התאמה מדויקת בין מועמדים למעסיקים
             </p>
           </Card>
           
-          <Card className="p-6">
-            <h3 className="text-xl font-bold text-gray-900 mb-3 border rounded-lg p-2">מבחנים מותאמים אישית</h3>
-            <p className="text-gray-600 border rounded-lg p-3">
+          <Card className="p-6 border-2 border-[#D3E4FD]">
+            <h3 className="text-xl font-bold text-gray-900 mb-3 border-2 border-[#D3E4FD] rounded-lg p-2">מבחנים מותאמים אישית</h3>
+            <p className="text-gray-600 border-2 border-[#D3E4FD] rounded-lg p-3">
               מעסיקים יכולים להעריך את יכולותיהם של מועמדים בצורה מדויקת על ידי מבחנים טכניים והצגה עצמית
             </p>
           </Card>
           
-          <Card className="p-6">
-            <h3 className="text-xl font-bold text-gray-900 mb-3 border rounded-lg p-2">שקיפות מלאה</h3>
-            <p className="text-gray-600 border rounded-lg p-3">
+          <Card className="p-6 border-2 border-[#D3E4FD]">
+            <h3 className="text-xl font-bold text-gray-900 mb-3 border-2 border-[#D3E4FD] rounded-lg p-2">שקיפות מלאה</h3>
+            <p className="text-gray-600 border-2 border-[#D3E4FD] rounded-lg p-3">
               המערכת מציעה תהליך ברור ומובנה שמפחית טעויות ואי-הבנות בין הצדדים
             </p>
           </Card>
           
-          <Card className="p-6">
-            <h3 className="text-xl font-bold text-gray-900 mb-3 border rounded-lg p-2">חוויית משתמש</h3>
-            <p className="text-gray-600 border rounded-lg p-3">
+          <Card className="p-6 border-2 border-[#D3E4FD]">
+            <h3 className="text-xl font-bold text-gray-900 mb-3 border-2 border-[#D3E4FD] rounded-lg p-2">חוויית משתמש</h3>
+            <p className="text-gray-600 border-2 border-[#D3E4FD] rounded-lg p-3">
               ממשק חברה ללא שדות טקסט חופשי תהליך נוח ויעיל הן למועמדים והן למעסיקים
             </p>
           </Card>
