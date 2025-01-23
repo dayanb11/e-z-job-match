@@ -16,12 +16,14 @@ export const IndustryList = ({ industries, selectedIndustry, onSelect }: Industr
   return (
     <CommandGroup className="max-h-[300px] overflow-auto">
       {industries.map((industry) => (
-        <IndustryListItem
-          key={industry.name}
-          industry={industry}
-          isSelected={selectedIndustry === industry.name}
-          onSelect={onSelect}
-        />
+        industry?.name ? (
+          <IndustryListItem
+            key={industry.name}
+            industry={industry}
+            isSelected={selectedIndustry === industry.name}
+            onSelect={onSelect}
+          />
+        ) : null
       ))}
     </CommandGroup>
   );
