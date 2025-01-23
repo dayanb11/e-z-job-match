@@ -6,59 +6,26 @@ const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZS
 
 export const supabase = createClient(supabaseUrl, supabaseKey);
 
-// Test function to verify the connection and table structure
-export const testSupabaseConnection = async () => {
-  try {
-    // Test data
-    const testData = {
-      personal_details: {
-        fullName: "ישראל ישראלי",
-        email: "test@example.com",
-        phone: "0501234567",
-        location: "תל אביב"
-      },
-      industry: "הייטק",
-      roles: [{
-        role: "מפתח תוכנה",
-        skills: ["JavaScript", "React"],
-        subSkills: ["TypeScript", "Node.js"]
-      }],
-      educations: [{
-        education: "תואר ראשון",
-        certifications: "מדעי המחשב",
-        institution: "אוניברסיטת תל אביב",
-        additionalInfo: "סיום בהצטיינות"
-      }]
-    };
-
-    // Try to insert test data
-    const { data, error } = await supabase
-      .from('applications')
-      .insert(testData)
-      .select()
-      .single();
-
-    if (error) {
-      console.error('Error inserting test data:', error);
-      throw error;
-    }
-
-    console.log('Test data saved successfully:', data);
-    return data;
-  } catch (error) {
-    console.error('Test connection failed:', error);
-    throw error;
-  }
-};
-
 export const saveApplication = async (application: Omit<Application, 'id' | 'createdAt'>) => {
   try {
+    console.log('Form data before submission:', application);
+    
     const { data, error } = await supabase
       .from('applications')
       .insert({
         personal_details: application.personalDetails,
         industry: application.industry,
-        roles: application.roles,
+        roles: application.roles.map(role => ({
+          role: role.role,
+          skills: role.skills.map(skill => ({
+            name: skill.name,
+            level: skill.level
+          })),
+          subSkills: role.subSkills.map(subSkill => ({
+            name: subSkill.name,
+            level: subSkill.level
+          }))
+        })),
         educations: application.educations
       })
       .select()

@@ -5,10 +5,15 @@ export interface PersonalDetails {
   location: string;
 }
 
+export interface SkillWithLevel {
+  name: string;
+  level: number;
+}
+
 export interface Role {
   role: string;
-  skills: { name: string; level: number }[];
-  subSkills: { name: string; level: number }[];
+  skills: SkillWithLevel[];
+  subSkills: SkillWithLevel[];
 }
 
 export interface Education {

@@ -4,7 +4,7 @@ import { SkillsExperienceForm } from "./SkillsExperienceForm";
 import { EducationCertificationsForm } from "./EducationCertificationsForm";
 import { useToast } from "@/components/ui/use-toast";
 import { saveApplication } from "@/lib/supabase";
-import { Application } from "@/types/application";
+import { Application, Role } from "@/types/application";
 
 export const ApplicationForm = () => {
   const [step, setStep] = useState(1);
@@ -15,6 +15,7 @@ export const ApplicationForm = () => {
       phone: "",
       location: "",
     },
+    roles: [],
   });
   const { toast } = useToast();
 
@@ -30,15 +31,14 @@ export const ApplicationForm = () => {
     try {
       console.log('Form data before submission:', formData);
       
+      if (!formData.personalDetails || !formData.industry || !formData.roles) {
+        throw new Error('Missing required fields');
+      }
+
       const application = {
-        personalDetails: {
-          fullName: formData.personalDetails?.fullName || "",
-          email: formData.personalDetails?.email || "",
-          phone: formData.personalDetails?.phone || "",
-          location: formData.personalDetails?.location || "",
-        },
-        industry: formData.industry || "",
-        roles: formData.roles || [],
+        personalDetails: formData.personalDetails,
+        industry: formData.industry,
+        roles: formData.roles,
         educations: formData.educations || [],
       };
 
