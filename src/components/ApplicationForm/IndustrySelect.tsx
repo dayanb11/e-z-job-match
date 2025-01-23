@@ -5,9 +5,8 @@ import { ChevronsUpDown } from "lucide-react";
 import { useState } from "react";
 import { Label } from "@/components/ui/label";
 import { industriesData } from "@/data/skillsData";
-import { IndustryList } from "../Industries/IndustryList";
-import { IndustrySearch } from "../Industries/IndustrySearch";
-import { Industry } from "@/types/industry";
+import { IndustryList } from "./IndustryList";
+import { IndustrySearch } from "./IndustrySearch";
 
 interface IndustrySelectProps {
   selectedIndustry: string;
@@ -21,21 +20,11 @@ export const IndustrySelect = ({
   const [open, setOpen] = useState(false);
   const [searchValue, setSearchValue] = useState("");
 
-  // Ensure we have a valid array of industries
-  const industries = Array.isArray(industriesData) ? industriesData : [];
-
-  // Filter industries based on search
-  const filteredIndustries = industries.filter((industry): industry is Industry => {
+  // Filter industries based on search value
+  const filteredIndustries = industriesData.filter((industry) => {
     if (!searchValue) return true;
-    if (!industry?.name) return false;
     return industry.name.toLowerCase().includes(searchValue.toLowerCase());
   });
-
-  const handleSelect = (currentValue: string) => {
-    onIndustryChange(currentValue);
-    setOpen(false);
-    setSearchValue("");
-  };
 
   return (
     <div className="space-y-2">
@@ -61,7 +50,11 @@ export const IndustrySelect = ({
             <IndustryList 
               industries={filteredIndustries}
               selectedIndustry={selectedIndustry}
-              onSelect={handleSelect}
+              onSelect={(value) => {
+                onIndustryChange(value);
+                setOpen(false);
+                setSearchValue("");
+              }}
             />
           </Command>
         </PopoverContent>
