@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { PersonalDetailsForm } from "./PersonalDetailsForm";
 import { SkillsExperienceForm } from "./SkillsExperienceForm";
 import { EducationCertificationsForm } from "./EducationCertificationsForm";
 import { useToast } from "@/components/ui/use-toast";
-import { saveApplication, testSupabaseConnection } from "@/lib/supabase";
+import { saveApplication } from "@/lib/supabase";
 import { Application } from "@/types/application";
 
 export const ApplicationForm = () => {
@@ -17,28 +17,6 @@ export const ApplicationForm = () => {
     },
   });
   const { toast } = useToast();
-
-  useEffect(() => {
-    // Test the connection when component mounts
-    const testConnection = async () => {
-      try {
-        await testSupabaseConnection();
-        toast({
-          title: "בדיקת החיבור הצליחה",
-          description: "הנתונים נשמרו בהצלחה",
-        });
-      } catch (error) {
-        console.error('Connection test failed:', error);
-        toast({
-          title: "שגיאה בבדיקת החיבור",
-          description: "אנא בדוק את הקונסול לפרטים נוספים",
-          variant: "destructive",
-        });
-      }
-    };
-
-    testConnection();
-  }, [toast]);
 
   const handleNext = () => {
     setStep(step + 1);
