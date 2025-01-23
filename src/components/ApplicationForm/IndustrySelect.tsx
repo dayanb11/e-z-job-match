@@ -31,9 +31,11 @@ export const IndustrySelect = ({
 
   // Ensure industriesData exists and is an array before filtering
   const industries = Array.isArray(industriesData) ? industriesData : [];
-  const filteredIndustries = industries.filter((industry) =>
-    industry.name.toLowerCase().includes((searchValue || "").toLowerCase())
-  );
+  const filteredIndustries = searchValue 
+    ? industries.filter((industry) =>
+        industry.name.toLowerCase().includes(searchValue.toLowerCase())
+      )
+    : industries;
 
   const selectedIndustryName = industries.find(
     (industry) => industry.name === selectedIndustry
@@ -55,7 +57,7 @@ export const IndustrySelect = ({
           </Button>
         </PopoverTrigger>
         <PopoverContent className="w-full p-0" align="start">
-          <Command dir="rtl" shouldFilter={false}>
+          <Command dir="rtl">
             <CommandInput 
               placeholder="חפש תעשייה..." 
               value={searchValue}
