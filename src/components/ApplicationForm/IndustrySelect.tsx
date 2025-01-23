@@ -34,7 +34,8 @@ export const IndustrySelect = ({
 
   // Filter industries based on search, with proper null checks
   const filteredIndustries = industries.filter((industry) => {
-    if (!searchValue || !industry?.name) return true;
+    if (!searchValue) return true;
+    if (!industry?.name) return false;
     return industry.name.toLowerCase().includes(searchValue.toLowerCase());
   });
 
@@ -54,7 +55,7 @@ export const IndustrySelect = ({
           </Button>
         </PopoverTrigger>
         <PopoverContent className="w-full p-0" align="start">
-          <Command dir="rtl">
+          <Command dir="rtl" shouldFilter={false}>
             <CommandInput 
               placeholder="חפש תעשייה..." 
               value={searchValue}
@@ -64,24 +65,26 @@ export const IndustrySelect = ({
             <CommandEmpty className="text-right">לא נמצאו תוצאות</CommandEmpty>
             <CommandGroup className="max-h-[300px] overflow-auto">
               {filteredIndustries.map((industry) => (
-                <CommandItem
-                  key={industry.name}
-                  value={industry.name}
-                  onSelect={(currentValue) => {
-                    onIndustryChange(currentValue);
-                    setOpen(false);
-                    setSearchValue("");
-                  }}
-                  className="text-right"
-                >
-                  <Check
-                    className={cn(
-                      "mr-2 h-4 w-4",
-                      selectedIndustry === industry.name ? "opacity-100" : "opacity-0"
-                    )}
-                  />
-                  {industry.name}
-                </CommandItem>
+                industry?.name ? (
+                  <CommandItem
+                    key={industry.name}
+                    value={industry.name}
+                    onSelect={(currentValue) => {
+                      onIndustryChange(currentValue);
+                      setOpen(false);
+                      setSearchValue("");
+                    }}
+                    className="text-right"
+                  >
+                    <Check
+                      className={cn(
+                        "mr-2 h-4 w-4",
+                        selectedIndustry === industry.name ? "opacity-100" : "opacity-0"
+                      )}
+                    />
+                    {industry.name}
+                  </CommandItem>
+                ) : null
               ))}
             </CommandGroup>
           </Command>
