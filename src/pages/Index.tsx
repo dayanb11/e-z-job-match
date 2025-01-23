@@ -20,47 +20,56 @@ const Index = () => {
             className="h-16 w-auto mx-auto mb-8"
           />
           <h1 className="text-4xl font-bold text-gray-900 mb-4">
-            פיתוח אתרים בעברית
+            אתגרים בפיתוח אתרים בעברית
           </h1>
           <p className="text-xl text-gray-600">
-            מדריך מקיף לפיתוח אתרים בשפה העברית
+            פתרונות מעשיים לאתגרים נפוצים
           </p>
         </div>
 
         <div className="space-y-8">
+          {/* אתגר 1 */}
           <Card className="p-6 rounded-lg border border-gray-200">
             <h2 className="text-2xl font-semibold text-gray-900 mb-4">
-              מה זה פיתוח אתרים בעברית?
+              כיווניות טקסט (RTL/LTR)
             </h2>
             <p className="text-gray-700 mb-4">
-              פיתוח אתרים בעברית הוא תחום מרתק המשלב בין טכנולוגיה לשפה. זהו תהליך של יצירת אתרי אינטרנט המותאמים במיוחד לקהל דובר העברית, תוך התחשבות במאפיינים הייחודיים של השפה העברית ובצרכים התרבותיים של המשתמשים הישראלים.
-            </p>
-          </Card>
-
-          <Card className="p-6 rounded-lg border border-gray-200">
-            <h2 className="text-2xl font-semibold text-gray-900 mb-4">
-              למה זה חשוב?
-            </h2>
-            <p className="text-gray-700 mb-4">
-              חשיבות פיתוח אתרים בעברית נובעת ממספר גורמים מרכזיים:
+              אחד האתגרים המרכזיים בפיתוח אתרים בעברית הוא ניהול כיווניות הטקסט. בעוד שהעברית נכתבת מימין לשמאל (RTL), תוכן באנגלית ומספרים נכתבים משמאל לימין (LTR).
             </p>
             <ul className="list-disc list-inside space-y-2 text-gray-700">
-              <li>נגישות למשתמשים דוברי עברית</li>
-              <li>התאמה תרבותית לשוק הישראלי</li>
-              <li>שיפור חווית המשתמש</li>
-              <li>קידום אתרים בשוק המקומי</li>
+              <li>שילוב תוכן דו-כיווני בממשק המשתמש</li>
+              <li>התאמת תפריטים וניווט לכיווניות RTL</li>
+              <li>טיפול בקלט משתמש בשפות שונות</li>
             </ul>
           </Card>
 
+          {/* אתגר 2 */}
           <Card className="p-6 rounded-lg border border-gray-200">
             <h2 className="text-2xl font-semibold text-gray-900 mb-4">
-              אתגרים בפיתוח אתרים בעברית
+              עיצוב ופריסה
             </h2>
+            <p className="text-gray-700 mb-4">
+              התאמת העיצוב לכיווניות RTL מצריכה תשומת לב מיוחדת לפרטים כמו מיקום אלמנטים, שוליים ומרווחים.
+            </p>
             <ul className="list-disc list-inside space-y-2 text-gray-700">
-              <li>תמיכה בכיווניות טקסט מימין לשמאל (RTL)</li>
-              <li>שילוב תוכן דו-לשוני (עברית ואנגלית)</li>
-              <li>התאמת ממשק המשתמש לשפה העברית</li>
-              <li>אופטימיזציה למנועי חיפוש בעברית</li>
+              <li>התאמת Grid ו-Flexbox לתצוגת RTL</li>
+              <li>מיקום נכון של אייקונים וכפתורים</li>
+              <li>טיפול בגלישת טקסט ושבירת שורות</li>
+            </ul>
+          </Card>
+
+          {/* אתגר 3 */}
+          <Card className="p-6 rounded-lg border border-gray-200">
+            <h2 className="text-2xl font-semibold text-gray-900 mb-4">
+              תמיכה בדפדפנים
+            </h2>
+            <p className="text-gray-700 mb-4">
+              חשוב לוודא תמיכה עקבית בתכונות RTL בדפדפנים שונים ולטפל בהבדלים ביניהם.
+            </p>
+            <ul className="list-disc list-inside space-y-2 text-gray-700">
+              <li>בדיקת תאימות בדפדפנים שונים</li>
+              <li>טיפול בבאגים ספציפיים לדפדפן</li>
+              <li>שימוש ב-CSS ו-JavaScript תומך RTL</li>
             </ul>
           </Card>
 
