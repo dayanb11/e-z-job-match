@@ -77,6 +77,56 @@ export const industriesData: Industry[] = [
     ],
   },
   {
+    name: "דאטה",
+    roles: [
+      {
+        title: "מדען נתונים",
+        skills: [
+          {
+            name: "סטטיסטיקה",
+            subSkills: ["הסתברות", "בדיקות השערות"],
+          },
+          {
+            name: "ספריות נתונים",
+            subSkills: ["Pandas", "NumPy"],
+          },
+          {
+            name: "כלי למידת מכונה",
+            subSkills: ["TensorFlow", "PyTorch"],
+          },
+          {
+            name: "פייתון/R",
+            subSkills: [],
+          },
+          {
+            name: "SQL",
+            subSkills: [],
+          },
+          {
+            name: "ויזואליזציה",
+            subSkills: ["Tableau", "Power BI"],
+          },
+          {
+            name: "ביג דאטה",
+            subSkills: ["Hadoop", "Spark"],
+          },
+          {
+            name: "מודלים חזויים",
+            subSkills: [],
+          },
+          {
+            name: "ניקוי נתונים",
+            subSkills: [],
+          },
+          {
+            name: "בדיקות A/B",
+            subSkills: [],
+          },
+        ],
+      },
+    ],
+  },
+  {
     name: "תוכנה",
     roles: [
       {
@@ -110,7 +160,7 @@ export const industriesData: Industry[] = [
           },
           {
             name: "אלגוריתמים",
-            subSkills: ["מיון", "חיפוש", "אלגוריתמי גרפים"],
+            subSkills: ["מיון", "חיפוש", "אלגוריתמי גרפים", "גרף אלגוריתמים"],
           },
           {
             name: "מתודולוגיות אג'יל",
