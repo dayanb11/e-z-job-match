@@ -1,14 +1,6 @@
 import { Button } from "@/components/ui/button";
-import {
-  Command,
-  CommandEmpty,
-  CommandGroup,
-} from "@/components/ui/command";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
+import { Command } from "@/components/ui/command";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { ChevronsUpDown } from "lucide-react";
 import { useState } from "react";
 import { Label } from "@/components/ui/label";
@@ -66,14 +58,11 @@ export const IndustrySelect = ({
               value={searchValue}
               onChange={setSearchValue}
             />
-            <CommandEmpty className="text-right">לא נמצאו תוצאות</CommandEmpty>
-            <CommandGroup className="max-h-[300px] overflow-auto">
-              <IndustryList 
-                industries={filteredIndustries}
-                selectedIndustry={selectedIndustry}
-                onSelect={handleSelect}
-              />
-            </CommandGroup>
+            <IndustryList 
+              industries={filteredIndustries}
+              selectedIndustry={selectedIndustry}
+              onSelect={handleSelect}
+            />
           </Command>
         </PopoverContent>
       </Popover>
