@@ -98,7 +98,7 @@ export const RoleEntry = ({
             </Button>
           </PopoverTrigger>
           <PopoverContent className="w-full p-0" align="start">
-            <Command dir="rtl">
+            <Command dir="rtl" shouldFilter={true}>
               <CommandInput placeholder="חפש תפקיד..." />
               <CommandEmpty>לא נמצאו תוצאות</CommandEmpty>
               <CommandGroup className="max-h-[300px] overflow-auto">

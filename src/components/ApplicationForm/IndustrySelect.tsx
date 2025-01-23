@@ -46,7 +46,7 @@ export const IndustrySelect = ({
           </Button>
         </PopoverTrigger>
         <PopoverContent className="w-full p-0" align="start">
-          <Command dir="rtl">
+          <Command dir="rtl" shouldFilter={true}>
             <CommandInput placeholder="חפש תעשייה..." />
             <CommandEmpty>לא נמצאו תוצאות</CommandEmpty>
             <CommandGroup className="max-h-[300px] overflow-auto">
