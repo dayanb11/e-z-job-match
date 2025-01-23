@@ -30,10 +30,14 @@ export const IndustrySelect = ({
   const [searchValue, setSearchValue] = useState("");
 
   // Ensure industriesData exists and is an array before filtering
-  const industries = industriesData || [];
+  const industries = Array.isArray(industriesData) ? industriesData : [];
   const filteredIndustries = industries.filter((industry) =>
     industry.name.toLowerCase().includes((searchValue || "").toLowerCase())
   );
+
+  const selectedIndustryName = industries.find(
+    (industry) => industry.name === selectedIndustry
+  )?.name;
 
   return (
     <div className="space-y-2">
@@ -46,9 +50,7 @@ export const IndustrySelect = ({
             aria-expanded={open}
             className="w-full justify-between text-right"
           >
-            {selectedIndustry
-              ? industries.find((industry) => industry.name === selectedIndustry)?.name
-              : "בחר תעשייה"}
+            {selectedIndustryName || "בחר תעשייה"}
             <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
           </Button>
         </PopoverTrigger>
