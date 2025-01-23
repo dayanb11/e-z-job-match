@@ -17,14 +17,14 @@ const Index = () => {
         <div className="text-center mb-16">
           <div className="border-[#D3E4FD] border-2 rounded-lg p-4 mb-4">
             <div className="flex items-center justify-center gap-4">
+              <h1 className="text-5xl font-bold text-gray-900">
+                E.Z Job Match
+              </h1>
               <img 
                 src="/lovable-uploads/d7f2a238-1d01-4215-ad5d-0c4b3b96b1e1.png" 
                 alt="Logo" 
                 className="h-16 w-auto"
               />
-              <h1 className="text-5xl font-bold text-gray-900">
-                E.Z Job Match
-              </h1>
             </div>
             <p className="text-xl text-gray-600">
               מהפכה בעולם הגיוס
