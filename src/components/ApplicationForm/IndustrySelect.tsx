@@ -29,17 +29,16 @@ export const IndustrySelect = ({
   const [open, setOpen] = useState(false);
   const [searchValue, setSearchValue] = useState("");
 
-  // Ensure we always have a valid array to work with
-  const industries = Array.isArray(industriesData) ? industriesData : [];
-  
-  // Simplify filtering logic
+  // Make sure industriesData is an array and has items
+  const industries = Array.isArray(industriesData) && industriesData.length > 0 
+    ? industriesData 
+    : [{ name: "אין תעשיות זמינות" }];
+
+  // Filter industries based on search
   const filteredIndustries = industries.filter((industry) => {
     if (!searchValue) return true;
     return industry.name.toLowerCase().includes(searchValue.toLowerCase());
   });
-
-  // Find the selected industry name safely
-  const selectedIndustryName = selectedIndustry || "בחר תעשייה";
 
   return (
     <div className="space-y-2">
@@ -52,7 +51,7 @@ export const IndustrySelect = ({
             aria-expanded={open}
             className="w-full justify-between text-right"
           >
-            {selectedIndustryName}
+            {selectedIndustry || "בחר תעשייה"}
             <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
           </Button>
         </PopoverTrigger>
@@ -62,9 +61,10 @@ export const IndustrySelect = ({
               placeholder="חפש תעשייה..." 
               value={searchValue}
               onValueChange={setSearchValue}
+              className="text-right"
             />
             <CommandEmpty>לא נמצאו תוצאות</CommandEmpty>
-            <CommandGroup>
+            <CommandGroup className="max-h-[200px] overflow-y-auto">
               {filteredIndustries.map((industry) => (
                 <CommandItem
                   key={industry.name}
