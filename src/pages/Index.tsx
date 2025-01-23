@@ -61,12 +61,18 @@ const Index = () => {
             </ul>
           </Card>
 
-          <div className="text-center mt-12">
+          <div className="text-center mt-12 space-x-4 space-x-reverse">
             <Button 
               onClick={() => setShowForm(true)}
               className="bg-primary hover:bg-primary/90 text-white px-8 py-3 rounded-lg text-lg"
             >
               רישום מועמד
+            </Button>
+            <Button 
+              onClick={() => {}} // Will be implemented later
+              className="bg-primary hover:bg-primary/90 text-white px-8 py-3 rounded-lg text-lg"
+            >
+              רישום חברה
             </Button>
           </div>
         </div>
