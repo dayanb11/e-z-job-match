@@ -20,11 +20,18 @@ export const IndustrySelect = ({
   const [open, setOpen] = useState(false);
   const [searchValue, setSearchValue] = useState("");
 
-  // Filter industries based on search value
-  const filteredIndustries = industriesData.filter((industry) => {
+  // Filter industries based on search value with null checks
+  const filteredIndustries = (industriesData || []).filter((industry) => {
     if (!searchValue) return true;
+    if (!industry?.name) return false;
     return industry.name.toLowerCase().includes(searchValue.toLowerCase());
   });
+
+  const handleSelect = (value: string) => {
+    onIndustryChange(value);
+    setOpen(false);
+    setSearchValue("");
+  };
 
   return (
     <div className="space-y-2">
@@ -50,11 +57,7 @@ export const IndustrySelect = ({
             <IndustryList 
               industries={filteredIndustries}
               selectedIndustry={selectedIndustry}
-              onSelect={(value) => {
-                onIndustryChange(value);
-                setOpen(false);
-                setSearchValue("");
-              }}
+              onSelect={handleSelect}
             />
           </Command>
         </PopoverContent>

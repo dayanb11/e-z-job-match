@@ -1,7 +1,6 @@
-import { Check } from "lucide-react";
-import { CommandEmpty, CommandGroup, CommandItem } from "@/components/ui/command";
-import { cn } from "@/lib/utils";
+import { CommandEmpty, CommandGroup } from "@/components/ui/command";
 import { Industry } from "@/types/industry";
+import { IndustryListItem } from "./IndustryListItem";
 
 interface IndustryListProps {
   industries: Industry[];
@@ -10,27 +9,19 @@ interface IndustryListProps {
 }
 
 export const IndustryList = ({ industries, selectedIndustry, onSelect }: IndustryListProps) => {
-  if (!industries.length) {
+  if (!industries?.length) {
     return <CommandEmpty className="text-right">לא נמצאו תוצאות</CommandEmpty>;
   }
 
   return (
     <CommandGroup className="max-h-[300px] overflow-auto">
       {industries.map((industry) => (
-        <CommandItem
+        <IndustryListItem
           key={industry.name}
-          value={industry.name}
+          industry={industry}
+          isSelected={selectedIndustry === industry.name}
           onSelect={onSelect}
-          className="text-right"
-        >
-          <Check
-            className={cn(
-              "mr-2 h-4 w-4",
-              selectedIndustry === industry.name ? "opacity-100" : "opacity-0"
-            )}
-          />
-          {industry.name}
-        </CommandItem>
+        />
       ))}
     </CommandGroup>
   );
