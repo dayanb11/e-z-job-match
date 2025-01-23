@@ -20,47 +20,44 @@ const Index = () => {
             className="h-16 w-auto mx-auto mb-8"
           />
           <h1 className="text-4xl font-bold text-gray-900 mb-4">
-            מה זה פיתוח אתרים בעברית?
+            JOBmatch - המקום שלך למציאת עבודה בהייטק
           </h1>
           <p className="text-xl text-gray-600">
-            מדריך מקיף לפיתוח אתרים בשפה העברית
+            מצא את המשרה המושלמת עבורך
           </p>
         </div>
 
         <div className="space-y-8">
           <Card className="p-6 rounded-lg border border-gray-200">
             <h2 className="text-2xl font-semibold text-gray-900 mb-4">
-              מה זה פיתוח אתרים בעברית?
+              למה JOBmatch?
             </h2>
             <p className="text-gray-700 mb-4">
-              פיתוח אתרים בעברית הוא תחום מרתק המשלב בין טכנולוגיה לשפה. זהו תהליך של יצירת אתרי אינטרנט המותאמים במיוחד לקהל דובר העברית, תוך התחשבות במאפיינים הייחודיים של השפה העברית ובצרכים התרבותיים של המשתמשים הישראלים.
+              אנחנו מחברים בין מועמדים איכותיים לבין החברות המובילות בתעשייה, תוך התאמה מדויקת של כישורים וציפיות.
             </p>
           </Card>
 
           <Card className="p-6 rounded-lg border border-gray-200">
             <h2 className="text-2xl font-semibold text-gray-900 mb-4">
-              למה זה חשוב?
+              איך זה עובד?
             </h2>
-            <p className="text-gray-700 mb-4">
-              חשיבות פיתוח אתרים בעברית נובעת ממספר גורמים מרכזיים:
-            </p>
             <ul className="list-disc list-inside space-y-2 text-gray-700">
-              <li>נגישות למשתמשים דוברי עברית</li>
-              <li>התאמה תרבותית לשוק הישראלי</li>
-              <li>שיפור חווית המשתמש</li>
-              <li>קידום אתרים בשוק המקומי</li>
+              <li>מלא את טופס ההרשמה המקיף שלנו</li>
+              <li>המערכת שלנו תנתח את הכישורים והניסיון שלך</li>
+              <li>נחבר אותך למשרות שמתאימות בדיוק לפרופיל שלך</li>
+              <li>נלווה אותך לאורך כל תהליך הגיוס</li>
             </ul>
           </Card>
 
           <Card className="p-6 rounded-lg border border-gray-200">
             <h2 className="text-2xl font-semibold text-gray-900 mb-4">
-              אתגרים בפיתוח אתרים בעברית
+              היתרונות שלנו
             </h2>
             <ul className="list-disc list-inside space-y-2 text-gray-700">
-              <li>תמיכה בכיווניות טקסט מימין לשמאל (RTL)</li>
-              <li>שילוב תוכן דו-לשוני (עברית ואנגלית)</li>
-              <li>התאמת ממשק המשתמש לשפה העברית</li>
-              <li>אופטימיזציה למנועי חיפוש בעברית</li>
+              <li>התאמה מדויקת למשרות רלוונטיות</li>
+              <li>חיסכון בזמן בחיפוש העבודה</li>
+              <li>ליווי אישי לאורך כל התהליך</li>
+              <li>גישה למשרות בחברות המובילות במשק</li>
             </ul>
           </Card>
 
