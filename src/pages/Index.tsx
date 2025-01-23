@@ -19,7 +19,7 @@ const Index = () => {
             E.Z Job Match
           </h1>
           <p className="text-xl text-gray-600 mb-8">
-            מתכנת בעולם הגיוס באמצעות התאמה מבוססת כישורים
+            מהפכה בעולם הגיוס
           </p>
           <div className="flex justify-center gap-4">
             <Button
