@@ -29,11 +29,10 @@ export const IndustrySelect = ({
   const [open, setOpen] = useState(false);
   const [searchValue, setSearchValue] = useState("");
 
-  const filteredIndustries = industriesData.filter((industry) =>
-    industry.name
-      .toLowerCase()
-      .slice(0, 2)
-      .includes((searchValue || "").toLowerCase().slice(0, 2))
+  // Ensure industriesData exists and is an array before filtering
+  const industries = industriesData || [];
+  const filteredIndustries = industries.filter((industry) =>
+    industry.name.toLowerCase().includes((searchValue || "").toLowerCase())
   );
 
   return (
@@ -48,7 +47,7 @@ export const IndustrySelect = ({
             className="w-full justify-between text-right"
           >
             {selectedIndustry
-              ? industriesData.find((industry) => industry.name === selectedIndustry)?.name
+              ? industries.find((industry) => industry.name === selectedIndustry)?.name
               : "בחר תעשייה"}
             <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
           </Button>
@@ -57,12 +56,12 @@ export const IndustrySelect = ({
           <Command dir="rtl" shouldFilter={false}>
             <CommandInput 
               placeholder="חפש תעשייה..." 
-              value={searchValue || ""}
+              value={searchValue}
               onValueChange={setSearchValue}
             />
             <CommandEmpty>לא נמצאו תוצאות</CommandEmpty>
             <CommandGroup className="max-h-[300px] overflow-auto">
-              {(filteredIndustries || []).map((industry) => (
+              {filteredIndustries.map((industry) => (
                 <CommandItem
                   key={industry.name}
                   value={industry.name}
