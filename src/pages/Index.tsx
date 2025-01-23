@@ -1,104 +1,88 @@
-import { useState } from "react";
-import { ApplicationForm } from "@/components/ApplicationForm/ApplicationForm";
-import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
+import { ApplicationForm } from "@/components/ApplicationForm/ApplicationForm";
+import { useState } from "react";
 
 const Index = () => {
   const [showForm, setShowForm] = useState(false);
-  const [formData, setFormData] = useState({
-    fullName: "",
-    email: "",
-    phone: "",
-    location: ""
-  });
 
   if (showForm) {
     return <ApplicationForm />;
   }
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    setShowForm(true);
-  };
-
   return (
     <div className="min-h-screen bg-white py-12 px-4 sm:px-6 lg:px-8" dir="rtl">
-      <div className="max-w-xl mx-auto">
-        <div className="text-center mb-12">
-          <h1 className="text-4xl font-bold text-gray-900 mb-8">
-            E.Z Job Match App
+      <div className="max-w-7xl mx-auto">
+        {/* Header Section */}
+        <div className="text-center mb-16">
+          <h1 className="text-5xl font-bold text-gray-900 mb-4">
+            E.Z Job Match
           </h1>
+          <p className="text-xl text-gray-600 mb-8">
+            מתכנת בעולם הגיוס באמצעות התאמה מבוססת כישורים
+          </p>
+          <div className="flex justify-center gap-4">
+            <Button
+              onClick={() => setShowForm(true)}
+              className="bg-[#0f172a] hover:bg-[#1e293b] text-white px-8 py-3 rounded-md text-lg"
+            >
+              הרשמת מועמד
+            </Button>
+            <Button
+              variant="outline"
+              className="border-2 border-[#0f172a] text-[#0f172a] px-8 py-3 rounded-md text-lg hover:bg-gray-50"
+            >
+              הרשמת חברה
+            </Button>
+          </div>
         </div>
 
-        <Card className="p-8 rounded-lg border border-gray-200">
-          <form onSubmit={handleSubmit} className="space-y-6">
-            <div>
-              <label htmlFor="fullName" className="block text-sm font-medium text-gray-700 mb-1">
-                שם מלא
-              </label>
-              <Input
-                id="fullName"
-                type="text"
-                value={formData.fullName}
-                onChange={(e) => setFormData({ ...formData, fullName: e.target.value })}
-                required
-                className="text-right"
-              />
-            </div>
+        {/* Problem & Solution Section */}
+        <div className="grid md:grid-cols-2 gap-8 mb-16">
+          <div className="bg-white rounded-lg p-8 shadow-sm border border-gray-100">
+            <h2 className="text-2xl font-bold text-red-500 mb-4">הבעיה</h2>
+            <p className="text-gray-700 text-lg leading-relaxed">
+              תהליכי הגיוס הקיימים אינם יעילים ויוצרים עלויות גבוהות וגיבורי משאבים למעסיקים עקב גיוסים לא מתאימים מצד אחד וטיפול בקרב מחפשי העבודה מצד שני
+            </p>
+          </div>
+          <div className="bg-white rounded-lg p-8 shadow-sm border border-gray-100">
+            <h2 className="text-2xl font-bold text-green-500 mb-4">הפתרון</h2>
+            <p className="text-gray-700 text-lg leading-relaxed">
+              E.Z Job Match משנה את עולם הגיוס על ידי התמקדות בכישורים במקום בתיאורי משרות מסורתיים
+            </p>
+          </div>
+        </div>
 
-            <div>
-              <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
-                דוא"ל
-              </label>
-              <Input
-                id="email"
-                type="email"
-                value={formData.email}
-                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                required
-                className="text-right"
-                dir="ltr"
-              />
-            </div>
-
-            <div>
-              <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-1">
-                טלפון
-              </label>
-              <Input
-                id="phone"
-                type="tel"
-                value={formData.phone}
-                onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                required
-                className="text-right"
-                dir="ltr"
-              />
-            </div>
-
-            <div>
-              <label htmlFor="location" className="block text-sm font-medium text-gray-700 mb-1">
-                מיקום
-              </label>
-              <Input
-                id="location"
-                type="text"
-                value={formData.location}
-                onChange={(e) => setFormData({ ...formData, location: e.target.value })}
-                required
-                className="text-right"
-              />
-            </div>
-
-            <Button 
-              type="submit"
-              className="w-full bg-primary hover:bg-primary/90 text-white py-3 rounded-lg text-lg"
-            >
-              המשך
-            </Button>
-          </form>
-        </Card>
+        {/* Features Section */}
+        <div className="grid md:grid-cols-4 gap-6">
+          <Card className="p-6">
+            <h3 className="text-xl font-bold text-gray-900 mb-3">התמקדות בכישורים</h3>
+            <p className="text-gray-600">
+              התמקדות בכישורים ולא בתוארי תפקידים, מאפשרת התאמה מדויקת בין מועמדים למעסיקים
+            </p>
+          </Card>
+          
+          <Card className="p-6">
+            <h3 className="text-xl font-bold text-gray-900 mb-3">מבחנים מותאמים אישית</h3>
+            <p className="text-gray-600">
+              מעסיקים יכולים להעריך את יכולותיהם של מועמדים בצורה מדויקת על ידי מבחנים טכניים והצגה עצמית
+            </p>
+          </Card>
+          
+          <Card className="p-6">
+            <h3 className="text-xl font-bold text-gray-900 mb-3">שקיפות מלאה</h3>
+            <p className="text-gray-600">
+              המערכת מציעה תהליך ברור ומובנה שמפחית טעויות ואי-הבנות בין הצדדים
+            </p>
+          </Card>
+          
+          <Card className="p-6">
+            <h3 className="text-xl font-bold text-gray-900 mb-3">חוויית משתמש</h3>
+            <p className="text-gray-600">
+              ממשק חברה ללא שדות טקסט חופשי תהליך נוח ויעיל הן למועמדים והן למעסיקים
+            </p>
+          </Card>
+        </div>
       </div>
     </div>
   );
