@@ -26,6 +26,13 @@ export const RoleSelector = ({
   availableRoles,
   onRoleSelect,
 }: RoleSelectorProps) => {
+  const filterItems = (value: string, items: Role[]) => {
+    const searchValue = value.toLowerCase().slice(0, 2); // Only use first two characters
+    return items.filter((item) =>
+      item.title.toLowerCase().slice(0, 2).includes(searchValue)
+    );
+  };
+
   return (
     <Popover>
       <PopoverTrigger asChild>
@@ -40,7 +47,7 @@ export const RoleSelector = ({
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-full p-0" align="start">
-        <Command dir="rtl" shouldFilter={true}>
+        <Command dir="rtl" shouldFilter={false}>
           <CommandInput placeholder="חפש תפקיד..." />
           <CommandEmpty>לא נמצאו תוצאות</CommandEmpty>
           <CommandGroup className="max-h-[300px] overflow-auto">

@@ -28,6 +28,13 @@ export const IndustrySelect = ({
 }: IndustrySelectProps) => {
   const [open, setOpen] = useState(false);
 
+  const filterItems = (value: string, items: typeof industriesData) => {
+    const searchValue = value.toLowerCase().slice(0, 2); // Only use first two characters
+    return items.filter((item) =>
+      item.name.toLowerCase().slice(0, 2).includes(searchValue)
+    );
+  };
+
   return (
     <div className="space-y-2">
       <Label>תעשייה</Label>
@@ -46,7 +53,7 @@ export const IndustrySelect = ({
           </Button>
         </PopoverTrigger>
         <PopoverContent className="w-full p-0" align="start">
-          <Command dir="rtl" shouldFilter={true}>
+          <Command dir="rtl" shouldFilter={false}>
             <CommandInput placeholder="חפש תעשייה..." />
             <CommandEmpty>לא נמצאו תוצאות</CommandEmpty>
             <CommandGroup className="max-h-[300px] overflow-auto">
