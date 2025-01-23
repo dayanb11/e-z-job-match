@@ -1,4 +1,4 @@
-import { Label } from "@/components/ui/label";
+import { Button } from "@/components/ui/button";
 import {
   Command,
   CommandEmpty,
@@ -11,10 +11,10 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { Button } from "@/components/ui/button";
 import { Check, ChevronsUpDown } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useState } from "react";
+import { Label } from "@/components/ui/label";
 import { industriesData } from "@/data/skillsData";
 
 interface IndustrySelectProps {
@@ -54,7 +54,7 @@ export const IndustrySelect = ({
           </Button>
         </PopoverTrigger>
         <PopoverContent className="w-full p-0" align="start">
-          <Command shouldFilter={false}>
+          <Command dir="rtl">
             <CommandInput 
               placeholder="חפש תעשייה..." 
               value={searchValue}
@@ -62,33 +62,27 @@ export const IndustrySelect = ({
               className="text-right"
             />
             <CommandEmpty className="text-right">לא נמצאו תוצאות</CommandEmpty>
-            <CommandGroup className="max-h-[200px] overflow-y-auto">
-              {filteredIndustries.length > 0 ? (
-                filteredIndustries.map((industry) => (
-                  <CommandItem
-                    key={industry.name}
-                    value={industry.name}
-                    onSelect={(currentValue) => {
-                      onIndustryChange(currentValue);
-                      setOpen(false);
-                      setSearchValue("");
-                    }}
-                    className="text-right"
-                  >
-                    <Check
-                      className={cn(
-                        "mr-2 h-4 w-4",
-                        selectedIndustry === industry.name ? "opacity-100" : "opacity-0"
-                      )}
-                    />
-                    {industry.name}
-                  </CommandItem>
-                ))
-              ) : (
-                <CommandItem value="" className="text-right text-muted-foreground">
-                  אין תעשיות זמינות
+            <CommandGroup className="max-h-[300px] overflow-auto">
+              {filteredIndustries.map((industry) => (
+                <CommandItem
+                  key={industry.name}
+                  value={industry.name}
+                  onSelect={(currentValue) => {
+                    onIndustryChange(currentValue);
+                    setOpen(false);
+                    setSearchValue("");
+                  }}
+                  className="text-right"
+                >
+                  <Check
+                    className={cn(
+                      "mr-2 h-4 w-4",
+                      selectedIndustry === industry.name ? "opacity-100" : "opacity-0"
+                    )}
+                  />
+                  {industry.name}
                 </CommandItem>
-              )}
+              ))}
             </CommandGroup>
           </Command>
         </PopoverContent>
