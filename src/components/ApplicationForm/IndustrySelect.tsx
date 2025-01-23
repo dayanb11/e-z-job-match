@@ -27,13 +27,14 @@ export const IndustrySelect = ({
   onIndustryChange,
 }: IndustrySelectProps) => {
   const [open, setOpen] = useState(false);
+  const [searchValue, setSearchValue] = useState("");
 
-  const filterItems = (value: string, items: typeof industriesData) => {
-    const searchValue = value.toLowerCase().slice(0, 2); // Only use first two characters
-    return items.filter((item) =>
-      item.name.toLowerCase().slice(0, 2).includes(searchValue)
-    );
-  };
+  const filteredIndustries = industriesData.filter((industry) =>
+    industry.name
+      .toLowerCase()
+      .slice(0, 2)
+      .includes(searchValue.toLowerCase().slice(0, 2))
+  );
 
   return (
     <div className="space-y-2">
@@ -54,10 +55,14 @@ export const IndustrySelect = ({
         </PopoverTrigger>
         <PopoverContent className="w-full p-0" align="start">
           <Command dir="rtl" shouldFilter={false}>
-            <CommandInput placeholder="חפש תעשייה..." />
+            <CommandInput 
+              placeholder="חפש תעשייה..." 
+              value={searchValue}
+              onValueChange={setSearchValue}
+            />
             <CommandEmpty>לא נמצאו תוצאות</CommandEmpty>
             <CommandGroup className="max-h-[300px] overflow-auto">
-              {industriesData.map((industry) => (
+              {filteredIndustries.map((industry) => (
                 <CommandItem
                   key={industry.name}
                   value={industry.name}

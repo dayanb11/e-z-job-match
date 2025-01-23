@@ -14,6 +14,7 @@ import {
 import { Check, ChevronsUpDown } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Role } from "@/data/skillsData";
+import { useState } from "react";
 
 interface RoleSelectorProps {
   selectedRole: string;
@@ -26,12 +27,14 @@ export const RoleSelector = ({
   availableRoles,
   onRoleSelect,
 }: RoleSelectorProps) => {
-  const filterItems = (value: string, items: Role[]) => {
-    const searchValue = value.toLowerCase().slice(0, 2); // Only use first two characters
-    return items.filter((item) =>
-      item.title.toLowerCase().slice(0, 2).includes(searchValue)
-    );
-  };
+  const [searchValue, setSearchValue] = useState("");
+
+  const filteredRoles = availableRoles.filter((role) =>
+    role.title
+      .toLowerCase()
+      .slice(0, 2)
+      .includes(searchValue.toLowerCase().slice(0, 2))
+  );
 
   return (
     <Popover>
@@ -48,10 +51,14 @@ export const RoleSelector = ({
       </PopoverTrigger>
       <PopoverContent className="w-full p-0" align="start">
         <Command dir="rtl" shouldFilter={false}>
-          <CommandInput placeholder="חפש תפקיד..." />
+          <CommandInput 
+            placeholder="חפש תפקיד..." 
+            value={searchValue}
+            onValueChange={setSearchValue}
+          />
           <CommandEmpty>לא נמצאו תוצאות</CommandEmpty>
           <CommandGroup className="max-h-[300px] overflow-auto">
-            {availableRoles.map((role) => (
+            {filteredRoles.map((role) => (
               <CommandItem
                 key={role.title}
                 value={role.title}
