@@ -40,6 +40,8 @@ export const RoleSelector = ({
     return role.title.toLowerCase().includes(searchValue.toLowerCase());
   });
 
+  const displayValue = selectedRole || (safeRoles.length === 0 ? "ערך חסר-פנה למנהלן המערכת להוספה" : "בחר תפקיד");
+
   return (
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
@@ -48,8 +50,9 @@ export const RoleSelector = ({
           role="combobox"
           aria-expanded={open}
           className="w-full justify-between text-right"
+          disabled={safeRoles.length === 0}
         >
-          {selectedRole || "בחר תפקיד"}
+          {displayValue}
           <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
         </Button>
       </PopoverTrigger>

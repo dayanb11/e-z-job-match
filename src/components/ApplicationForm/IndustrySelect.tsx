@@ -29,11 +29,7 @@ export const IndustrySelect = ({
     return industry.name.toLowerCase().includes(searchValue.toLowerCase());
   });
 
-  const handleSelect = (value: string) => {
-    onIndustryChange(value);
-    setOpen(false);
-    setSearchValue("");
-  };
+  const displayValue = selectedIndustry || (industries.length === 0 ? "ערך חסר-פנה למנהלן המערכת להוספה" : "בחר תעשייה");
 
   return (
     <div className="space-y-2">
@@ -45,8 +41,9 @@ export const IndustrySelect = ({
             role="combobox"
             aria-expanded={open}
             className="w-full justify-between text-right"
+            disabled={industries.length === 0}
           >
-            {selectedIndustry || "בחר תעשייה"}
+            {displayValue}
             <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
           </Button>
         </PopoverTrigger>
@@ -64,7 +61,7 @@ export const IndustrySelect = ({
                   <IndustryList 
                     industries={filteredIndustries}
                     selectedIndustry={selectedIndustry}
-                    onSelect={handleSelect}
+                    onSelect={onIndustryChange}
                   />
                 )}
               </CommandGroup>
