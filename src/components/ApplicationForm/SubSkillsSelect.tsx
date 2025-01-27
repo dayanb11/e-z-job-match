@@ -1,13 +1,16 @@
 import { Label } from "@/components/ui/label";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { Badge } from "@/components/ui/badge";
 import { Slider } from "@/components/ui/slider";
+import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from "@/components/ui/command";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import { Button } from "@/components/ui/button";
+import { Check, ChevronsUpDown } from "lucide-react";
+import { cn } from "@/lib/utils";
+import { useState } from "react";
 
 interface SubSkillsSelectProps {
   availableSubSkills: string[];
@@ -24,6 +27,9 @@ export const SubSkillsSelect = ({
   onRemoveSubSkill,
   onSubSkillLevelChange,
 }: SubSkillsSelectProps) => {
+  const [open, setOpen] = useState(false);
+  const [searchValue, setSearchValue] = useState("");
+
   if (availableSubSkills.length === 0) return null;
 
   const getLevelText = (level: number) => {
@@ -32,25 +38,69 @@ export const SubSkillsSelect = ({
     return "מצוין";
   };
 
+  // Filter subskills based on search value
+  const filteredSubSkills = availableSubSkills.filter((subSkill) => {
+    if (!subSkill || !searchValue) return true;
+    return subSkill.toLowerCase().includes(searchValue.toLowerCase());
+  });
+
   return (
     <div className="space-y-2">
       <Label>כישורי משנה</Label>
-      <Select value="" onValueChange={onSubSkillSelect}>
-        <SelectTrigger>
-          <SelectValue placeholder="בחר כישור משנה" />
-        </SelectTrigger>
-        <SelectContent>
-          {availableSubSkills.map((subSkill) => (
-            <SelectItem
-              key={subSkill}
-              value={subSkill}
-              disabled={selectedSubSkills.some(s => s.name === subSkill)}
-            >
-              {subSkill}
-            </SelectItem>
-          ))}
-        </SelectContent>
-      </Select>
+      <Popover open={open} onOpenChange={setOpen}>
+        <PopoverTrigger asChild>
+          <Button
+            variant="outline"
+            role="combobox"
+            aria-expanded={open}
+            className="w-full justify-between text-right"
+          >
+            בחר כישור משנה
+            <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+          </Button>
+        </PopoverTrigger>
+        <PopoverContent className="w-full p-0" align="start">
+          <Command dir="rtl" className="bg-slate-900">
+            <CommandInput 
+              placeholder="חפש כישור משנה..." 
+              value={searchValue}
+              onValueChange={setSearchValue}
+              className="text-right bg-slate-800"
+            />
+            <CommandList className="bg-slate-900">
+              <CommandGroup>
+                {filteredSubSkills.length === 0 ? (
+                  <CommandEmpty className="text-right text-slate-200">לא נמצאו תוצאות</CommandEmpty>
+                ) : (
+                  filteredSubSkills.map((subSkill) => (
+                    subSkill && (
+                      <CommandItem
+                        key={subSkill}
+                        value={subSkill}
+                        onSelect={(currentValue) => {
+                          onSubSkillSelect(currentValue);
+                          setOpen(false);
+                          setSearchValue("");
+                        }}
+                        className="text-right text-slate-200 hover:bg-slate-800"
+                        disabled={selectedSubSkills.some(s => s.name === subSkill)}
+                      >
+                        <Check
+                          className={cn(
+                            "mr-2 h-4 w-4",
+                            selectedSubSkills.some(s => s.name === subSkill) ? "opacity-100" : "opacity-0"
+                          )}
+                        />
+                        {subSkill}
+                      </CommandItem>
+                    )
+                  ))
+                )}
+              </CommandGroup>
+            </CommandList>
+          </Command>
+        </PopoverContent>
+      </Popover>
 
       {selectedSubSkills.length > 0 && (
         <div className="space-y-4 mt-4">
