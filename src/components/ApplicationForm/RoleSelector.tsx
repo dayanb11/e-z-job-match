@@ -6,6 +6,7 @@ import {
   CommandGroup,
   CommandInput,
   CommandItem,
+  CommandList,
 } from "@/components/ui/command";
 import {
   Popover,
@@ -30,8 +31,10 @@ export const RoleSelector = ({
   const [open, setOpen] = useState(false);
   const [searchValue, setSearchValue] = useState("");
 
-  // Ensure we have a valid array to work with and safely handle undefined titles
+  // Ensure we have a valid array to work with
   const safeRoles = Array.isArray(availableRoles) ? availableRoles : [];
+  
+  // Filter roles based on search value
   const filteredRoles = safeRoles.filter((role) => {
     if (!role?.title || !searchValue) return true;
     return role.title.toLowerCase().includes(searchValue.toLowerCase());
@@ -58,34 +61,36 @@ export const RoleSelector = ({
             onValueChange={setSearchValue}
             className="text-right"
           />
-          <CommandGroup>
-            {filteredRoles.length === 0 ? (
-              <CommandEmpty>לא נמצאו תוצאות</CommandEmpty>
-            ) : (
-              filteredRoles.map((role) => (
-                role?.title && (
-                  <CommandItem
-                    key={role.title}
-                    value={role.title}
-                    onSelect={(currentValue) => {
-                      onRoleSelect(currentValue);
-                      setOpen(false);
-                      setSearchValue("");
-                    }}
-                    className="text-right"
-                  >
-                    <Check
-                      className={cn(
-                        "mr-2 h-4 w-4",
-                        selectedRole === role.title ? "opacity-100" : "opacity-0"
-                      )}
-                    />
-                    {role.title}
-                  </CommandItem>
-                )
-              ))
-            )}
-          </CommandGroup>
+          <CommandList>
+            <CommandGroup>
+              {filteredRoles.length === 0 ? (
+                <CommandEmpty className="text-right">לא נמצאו תוצאות</CommandEmpty>
+              ) : (
+                filteredRoles.map((role) => (
+                  role?.title && (
+                    <CommandItem
+                      key={role.title}
+                      value={role.title}
+                      onSelect={(currentValue) => {
+                        onRoleSelect(currentValue);
+                        setOpen(false);
+                        setSearchValue("");
+                      }}
+                      className="text-right"
+                    >
+                      <Check
+                        className={cn(
+                          "mr-2 h-4 w-4",
+                          selectedRole === role.title ? "opacity-100" : "opacity-0"
+                        )}
+                      />
+                      {role.title}
+                    </CommandItem>
+                  )
+                ))
+              )}
+            </CommandGroup>
+          </CommandList>
         </Command>
       </PopoverContent>
     </Popover>
