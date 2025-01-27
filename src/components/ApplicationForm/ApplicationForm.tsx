@@ -59,11 +59,11 @@ export const ApplicationForm = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8" dir="rtl">
+    <div className="min-h-screen bg-gray-50 py-8 px-4 sm:px-6 lg:px-8" dir="rtl">
       <div className="max-w-2xl mx-auto">
-        <div className="text-center mb-8">
-          <h2 className="text-3xl font-bold text-gray-900 mb-4">E.Z Job Match App</h2>
-          <div className="flex justify-center items-center gap-2 mb-8">
+        <div className="text-center mb-6">
+          <h2 className="text-3xl font-bold text-gray-900 mb-3">E.Z Job Match App</h2>
+          <div className="flex justify-center items-center gap-2 mb-6">
             {[1, 2, 3].map((i) => (
               <div
                 key={i}
