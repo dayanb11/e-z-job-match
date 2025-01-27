@@ -25,8 +25,8 @@ export const IndustrySelect = ({
   
   // Filter industries based on search value
   const filteredIndustries = industries.filter((industry) => {
-    if (!searchValue) return true;
-    return industry?.name?.toLowerCase().includes(searchValue.toLowerCase());
+    if (!industry?.name || !searchValue) return true;
+    return industry.name.toLowerCase().includes(searchValue.toLowerCase());
   });
 
   const handleSelect = (value: string) => {
@@ -57,17 +57,17 @@ export const IndustrySelect = ({
               onChange={setSearchValue}
             />
             <CommandList>
-              {filteredIndustries.length === 0 ? (
-                <CommandEmpty className="text-right">לא נמצאו תוצאות</CommandEmpty>
-              ) : (
-                <CommandGroup>
+              <CommandGroup>
+                {filteredIndustries.length === 0 ? (
+                  <CommandEmpty className="text-right">לא נמצאו תוצאות</CommandEmpty>
+                ) : (
                   <IndustryList 
                     industries={filteredIndustries}
                     selectedIndustry={selectedIndustry}
                     onSelect={handleSelect}
                   />
-                </CommandGroup>
-              )}
+                )}
+              </CommandGroup>
             </CommandList>
           </Command>
         </PopoverContent>
