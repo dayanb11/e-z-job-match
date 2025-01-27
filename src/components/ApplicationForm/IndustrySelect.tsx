@@ -20,9 +20,11 @@ export const IndustrySelect = ({
   const [open, setOpen] = useState(false);
   const [searchValue, setSearchValue] = useState("");
 
-  const filteredIndustries = industriesData.filter((industry) => {
+  // Ensure we have a valid array to filter
+  const industries = industriesData || [];
+  const filteredIndustries = industries.filter((industry) => {
     if (!searchValue) return true;
-    return industry.name.toLowerCase().includes(searchValue.toLowerCase());
+    return industry?.name?.toLowerCase().includes(searchValue.toLowerCase());
   });
 
   const handleSelect = (value: string) => {
