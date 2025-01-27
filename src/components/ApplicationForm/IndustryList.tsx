@@ -1,4 +1,3 @@
-import { CommandItem } from "@/components/ui/command";
 import { Industry } from "@/types/industry";
 import { IndustryListItem } from "./IndustryListItem";
 
