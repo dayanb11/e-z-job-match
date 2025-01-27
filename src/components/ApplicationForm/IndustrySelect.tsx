@@ -20,7 +20,7 @@ export const IndustrySelect = ({
   const [open, setOpen] = useState(false);
   const [searchValue, setSearchValue] = useState("");
 
-  // Ensure we have a valid array to filter
+  // וידוא שיש לנו מערך תקין לסינון
   const industries = industriesData || [];
   const filteredIndustries = industries.filter((industry) => {
     if (!searchValue) return true;
