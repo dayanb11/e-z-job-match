@@ -48,15 +48,16 @@ export const IndustrySelect = ({
           </Button>
         </PopoverTrigger>
         <PopoverContent className="w-full p-0" align="start">
-          <Command dir="rtl" shouldFilter={false}>
+          <Command dir="rtl" className="bg-slate-900">
             <IndustrySearch 
               value={searchValue}
               onChange={setSearchValue}
+              className="bg-slate-800"
             />
-            <CommandList>
+            <CommandList className="bg-slate-900">
               <CommandGroup>
                 {filteredIndustries.length === 0 ? (
-                  <CommandEmpty className="text-right">לא נמצאו תוצאות</CommandEmpty>
+                  <CommandEmpty className="text-right text-slate-200">לא נמצאו תוצאות</CommandEmpty>
                 ) : (
                   <IndustryList 
                     industries={filteredIndustries}

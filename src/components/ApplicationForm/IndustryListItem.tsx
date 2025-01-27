@@ -14,7 +14,7 @@ export const IndustryListItem = ({ industry, isSelected, onSelect }: IndustryLis
     key={industry.name}
     value={industry.name}
     onSelect={onSelect}
-    className="text-right"
+    className="text-right text-slate-200 hover:bg-slate-800"
   >
     <Check
       className={cn(

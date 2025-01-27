@@ -57,17 +57,17 @@ export const RoleSelector = ({
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-full p-0" align="start">
-        <Command dir="rtl">
+        <Command dir="rtl" className="bg-slate-900">
           <CommandInput 
             placeholder="חפש תפקיד..." 
             value={searchValue}
             onValueChange={setSearchValue}
-            className="text-right"
+            className="text-right bg-slate-800"
           />
-          <CommandList>
+          <CommandList className="bg-slate-900">
             <CommandGroup>
               {filteredRoles.length === 0 ? (
-                <CommandEmpty className="text-right">לא נמצאו תוצאות</CommandEmpty>
+                <CommandEmpty className="text-right text-slate-200">לא נמצאו תוצאות</CommandEmpty>
               ) : (
                 filteredRoles.map((role) => (
                   role?.title && (
@@ -79,7 +79,7 @@ export const RoleSelector = ({
                         setOpen(false);
                         setSearchValue("");
                       }}
-                      className="text-right"
+                      className="text-right text-slate-200 hover:bg-slate-800"
                     >
                       <Check
                         className={cn(
