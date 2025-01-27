@@ -63,31 +63,31 @@ const Index = () => {
         </div>
 
         {/* Features Section */}
-        <div className="grid md:grid-cols-4 gap-6">
-          <div className="border-[#D3E4FD] border-2 rounded-lg p-6">
-            <h3 className="text-xl font-bold text-gray-900 mb-3">התמקדות בכישורים</h3>
-            <p className="text-gray-600">
+        <div className="grid md:grid-cols-4 gap-4">
+          <div className="border-[#D3E4FD] border-2 rounded-lg p-4">
+            <h3 className="text-lg font-bold text-gray-900 mb-2">התמקדות בכישורים</h3>
+            <p className="text-gray-600 text-sm">
               התמקדות בכישורים ולא בתוארי תפקידים, מאפשרת התאמה מדויקת בין מועמדים למעסיקים
             </p>
           </div>
           
-          <div className="border-[#D3E4FD] border-2 rounded-lg p-6">
-            <h3 className="text-xl font-bold text-gray-900 mb-3">מבחנים מותאמים אישית</h3>
-            <p className="text-gray-600">
+          <div className="border-[#D3E4FD] border-2 rounded-lg p-4">
+            <h3 className="text-lg font-bold text-gray-900 mb-2">מבחנים מותאמים אישית</h3>
+            <p className="text-gray-600 text-sm">
               מעסיקים יכולים להעריך את יכולותיהם של מועמדים בצורה מדויקת על ידי מבחנים טכניים והצגה עצמית
             </p>
           </div>
           
-          <div className="border-[#D3E4FD] border-2 rounded-lg p-6">
-            <h3 className="text-xl font-bold text-gray-900 mb-3">שקיפות מלאה</h3>
-            <p className="text-gray-600">
+          <div className="border-[#D3E4FD] border-2 rounded-lg p-4">
+            <h3 className="text-lg font-bold text-gray-900 mb-2">שקיפות מלאה</h3>
+            <p className="text-gray-600 text-sm">
               המערכת מציעה תהליך ברור ומובנה שמפחית טעויות ואי-הבנות בין הצדדים
             </p>
           </div>
           
-          <div className="border-[#D3E4FD] border-2 rounded-lg p-6">
-            <h3 className="text-xl font-bold text-gray-900 mb-3">חוויית משתמש</h3>
-            <p className="text-gray-600">
+          <div className="border-[#D3E4FD] border-2 rounded-lg p-4">
+            <h3 className="text-lg font-bold text-gray-900 mb-2">חוויית משתמש</h3>
+            <p className="text-gray-600 text-sm">
               ממשק חברה ללא שדות טקסט חופשי תהליך נוח ויעיל הן למועמדים והן למעסיקים
             </p>
           </div>
