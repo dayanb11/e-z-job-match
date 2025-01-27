@@ -11,6 +11,10 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Plus, X } from "lucide-react";
+import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from "@/components/ui/command";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { Check, ChevronsUpDown } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 interface Education {
   education: string;
@@ -57,6 +61,9 @@ export const EducationCertificationsForm = ({
   formData,
   setFormData,
 }: EducationCertificationsFormProps) => {
+  const [searchValue, setSearchValue] = React.useState("");
+  const [openInstitutions, setOpenInstitutions] = React.useState<{ [key: number]: boolean }>({});
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     onSubmit();
@@ -89,6 +96,11 @@ export const EducationCertificationsForm = ({
     updatedEducations.splice(index, 1);
     setFormData({ ...formData, educations: updatedEducations });
   };
+
+  const filteredInstitutions = academicInstitutions.filter((institution) => {
+    if (!searchValue) return true;
+    return institution.label.toLowerCase().includes(searchValue.toLowerCase());
+  });
 
   React.useEffect(() => {
     if (!formData.educations || !formData.educations.length) {
@@ -161,25 +173,62 @@ export const EducationCertificationsForm = ({
 
             <div className="space-y-2">
               <Label htmlFor={`institution-${index}`}>מוסד לימודים</Label>
-              <Select
-                value={edu.institution}
-                onValueChange={(value) => handleChange(index, "institution", value)}
+              <Popover 
+                open={openInstitutions[index]} 
+                onOpenChange={(open) => setOpenInstitutions({ ...openInstitutions, [index]: open })}
               >
-                <SelectTrigger className="w-full rtl text-right">
-                  <SelectValue placeholder="בחר מוסד לימודים" />
-                </SelectTrigger>
-                <SelectContent>
-                  {academicInstitutions.map((institution) => (
-                    <SelectItem
-                      key={institution.value}
-                      value={institution.value}
-                      className="text-right"
-                    >
-                      {institution.label}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
+                <PopoverTrigger asChild>
+                  <Button
+                    variant="outline"
+                    role="combobox"
+                    aria-expanded={openInstitutions[index]}
+                    className="w-full justify-between text-right"
+                    disabled={academicInstitutions.length === 0}
+                  >
+                    {edu.institution ? 
+                      academicInstitutions.find((institution) => institution.value === edu.institution)?.label 
+                      : academicInstitutions.length === 0 ? "ערך חסר-פנה למנהלן המערכת להוספה" : "בחר מוסד לימודים"}
+                    <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent className="w-full p-0" align="start">
+                  <Command dir="rtl" className="bg-slate-900">
+                    <CommandInput 
+                      placeholder="חפש מוסד לימודים..." 
+                      value={searchValue}
+                      onValueChange={setSearchValue}
+                      className="text-right bg-slate-800"
+                    />
+                    <CommandList className="bg-slate-900">
+                      <CommandGroup>
+                        {filteredInstitutions.length === 0 ? (
+                          <CommandEmpty className="text-right text-slate-200">לא נמצאו תוצאות</CommandEmpty>
+                        ) : (
+                          filteredInstitutions.map((institution) => (
+                            <CommandItem
+                              key={institution.value}
+                              value={institution.value}
+                              onSelect={(value) => {
+                                handleChange(index, "institution", value);
+                                setOpenInstitutions({ ...openInstitutions, [index]: false });
+                              }}
+                              className="text-right text-slate-200 hover:bg-slate-800"
+                            >
+                              <Check
+                                className={cn(
+                                  "mr-2 h-4 w-4",
+                                  edu.institution === institution.value ? "opacity-100" : "opacity-0"
+                                )}
+                              />
+                              {institution.label}
+                            </CommandItem>
+                          ))
+                        )}
+                      </CommandGroup>
+                    </CommandList>
+                  </Command>
+                </PopoverContent>
+              </Popover>
             </div>
 
             <div className="space-y-2">
