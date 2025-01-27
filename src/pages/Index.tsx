@@ -14,7 +14,7 @@ const Index = () => {
     <div className="min-h-screen bg-white py-12 px-4 sm:px-6 lg:px-8" dir="rtl">
       <div className="max-w-7xl mx-auto">
         {/* Header Section */}
-        <div className="text-center mb-16">
+        <div className="text-center mb-8">
           <div className="border-[#D3E4FD] border-2 rounded-lg p-4 mb-4">
             <div className="flex items-center justify-center gap-4">
               <h1 className="text-5xl font-bold text-gray-900">
@@ -47,16 +47,16 @@ const Index = () => {
         </div>
 
         {/* Problem & Solution Section */}
-        <div className="grid md:grid-cols-2 gap-8 mb-16">
-          <div className="border-[#D3E4FD] border-2 rounded-lg p-8">
-            <h2 className="text-2xl font-bold text-red-500 mb-4">הבעיה</h2>
-            <p className="text-gray-700 text-lg leading-relaxed">
+        <div className="grid md:grid-cols-2 gap-4 mb-8">
+          <div className="border-[#D3E4FD] border-2 rounded-lg p-4">
+            <h2 className="text-xl font-bold text-red-500 mb-2">הבעיה</h2>
+            <p className="text-gray-700 text-base leading-relaxed">
               תהליכי הגיוס הקיימים אינם יעילים ויוצרים עלויות גבוהות וגיבורי משאבים למעסיקים עקב גיוסים לא מתאימים מצד אחד וטיפול בקרב מחפשי העבודה מצד שני
             </p>
           </div>
-          <div className="border-[#D3E4FD] border-2 rounded-lg p-8">
-            <h2 className="text-2xl font-bold text-green-500 mb-4">הפתרון</h2>
-            <p className="text-gray-700 text-lg leading-relaxed">
+          <div className="border-[#D3E4FD] border-2 rounded-lg p-4">
+            <h2 className="text-xl font-bold text-green-500 mb-2">הפתרון</h2>
+            <p className="text-gray-700 text-base leading-relaxed">
               E.Z Job Match משנה את עולם הגיוס על ידי התמקדות בכישורים במקום בתיאורי משרות מסורתיים
             </p>
           </div>
