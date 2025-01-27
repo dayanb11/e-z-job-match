@@ -9,13 +9,16 @@ interface IndustryListProps {
 }
 
 export const IndustryList = ({ industries, selectedIndustry, onSelect }: IndustryListProps) => {
-  if (!industries?.length) {
+  // Ensure industries is always an array
+  const safeIndustries = Array.isArray(industries) ? industries : [];
+  
+  if (!safeIndustries?.length) {
     return <CommandEmpty className="text-right">לא נמצאו תוצאות</CommandEmpty>;
   }
 
   return (
     <CommandGroup className="max-h-[300px] overflow-auto">
-      {industries.map((industry) => (
+      {safeIndustries.map((industry) => (
         industry?.name ? (
           <IndustryListItem
             key={industry.name}
