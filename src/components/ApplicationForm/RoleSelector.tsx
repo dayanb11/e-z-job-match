@@ -24,17 +24,14 @@ interface RoleSelectorProps {
 
 export const RoleSelector = ({
   selectedRole,
-  availableRoles = [], // Provide default empty array
+  availableRoles = [],
   onRoleSelect,
 }: RoleSelectorProps) => {
   const [open, setOpen] = useState(false);
   const [searchValue, setSearchValue] = useState("");
 
-  // Safely handle filtering with optional chaining and nullish coalescing
-  const filteredRoles = (availableRoles ?? []).filter((role) =>
-    role.title
-      .toLowerCase()
-      .includes(searchValue.toLowerCase())
+  const filteredRoles = (availableRoles || []).filter((role) =>
+    role.title.toLowerCase().includes(searchValue.toLowerCase())
   );
 
   return (
@@ -57,28 +54,31 @@ export const RoleSelector = ({
             value={searchValue}
             onValueChange={setSearchValue}
           />
-          <CommandEmpty>לא נמצאו תוצאות</CommandEmpty>
-          <CommandGroup className="max-h-[300px] overflow-auto">
-            {filteredRoles.map((role) => (
-              <CommandItem
-                key={role.title}
-                value={role.title}
-                onSelect={(currentValue) => {
-                  onRoleSelect(currentValue);
-                  setOpen(false);
-                  setSearchValue("");
-                }}
-                className="text-right"
-              >
-                <Check
-                  className={cn(
-                    "mr-2 h-4 w-4",
-                    selectedRole === role.title ? "opacity-100" : "opacity-0"
-                  )}
-                />
-                {role.title}
-              </CommandItem>
-            ))}
+          <CommandGroup>
+            {filteredRoles.length === 0 ? (
+              <CommandEmpty>לא נמצאו תוצאות</CommandEmpty>
+            ) : (
+              filteredRoles.map((role) => (
+                <CommandItem
+                  key={role.title}
+                  value={role.title}
+                  onSelect={(currentValue) => {
+                    onRoleSelect(currentValue);
+                    setOpen(false);
+                    setSearchValue("");
+                  }}
+                  className="text-right"
+                >
+                  <Check
+                    className={cn(
+                      "mr-2 h-4 w-4",
+                      selectedRole === role.title ? "opacity-100" : "opacity-0"
+                    )}
+                  />
+                  {role.title}
+                </CommandItem>
+              ))
+            )}
           </CommandGroup>
         </Command>
       </PopoverContent>
