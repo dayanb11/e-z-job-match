@@ -61,7 +61,7 @@ export const EducationCertificationsForm = ({
   formData,
   setFormData,
 }: EducationCertificationsFormProps) => {
-  const [searchValue, setSearchValue] = React.useState("");
+  const [searchValues, setSearchValues] = React.useState<{ [key: number]: string }>({});
   const [openInstitutions, setOpenInstitutions] = React.useState<{ [key: number]: boolean }>({});
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -97,10 +97,13 @@ export const EducationCertificationsForm = ({
     setFormData({ ...formData, educations: updatedEducations });
   };
 
-  const filteredInstitutions = academicInstitutions.filter((institution) => {
-    if (!searchValue) return true;
-    return institution.label.toLowerCase().includes(searchValue.toLowerCase());
-  });
+  const getFilteredInstitutions = (index: number) => {
+    const searchValue = searchValues[index] || '';
+    return academicInstitutions.filter((institution) => {
+      if (!searchValue) return true;
+      return institution.label.toLowerCase().includes(searchValue.toLowerCase());
+    });
+  };
 
   React.useEffect(() => {
     if (!formData.educations || !formData.educations.length) {
@@ -195,22 +198,23 @@ export const EducationCertificationsForm = ({
                   <Command dir="rtl" className="bg-slate-900">
                     <CommandInput 
                       placeholder="חפש מוסד לימודים..." 
-                      value={searchValue}
-                      onValueChange={setSearchValue}
+                      value={searchValues[index] || ''}
+                      onValueChange={(value) => setSearchValues({ ...searchValues, [index]: value })}
                       className="text-right bg-slate-800"
                     />
                     <CommandList className="bg-slate-900">
                       <CommandGroup>
-                        {filteredInstitutions.length === 0 ? (
+                        {getFilteredInstitutions(index).length === 0 ? (
                           <CommandEmpty className="text-right text-slate-200">לא נמצאו תוצאות</CommandEmpty>
                         ) : (
-                          filteredInstitutions.map((institution) => (
+                          getFilteredInstitutions(index).map((institution) => (
                             <CommandItem
                               key={institution.value}
                               value={institution.value}
                               onSelect={(value) => {
                                 handleChange(index, "institution", value);
                                 setOpenInstitutions({ ...openInstitutions, [index]: false });
+                                setSearchValues({ ...searchValues, [index]: '' });
                               }}
                               className="text-right text-slate-200 hover:bg-slate-800"
                             >
