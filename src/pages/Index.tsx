@@ -30,7 +30,7 @@ const Index = () => {
               מהפכה בעולם הגיוס
             </p>
           </div>
-          <div className="flex justify-center gap-4 mb-[10px]">
+          <div className="flex justify-center gap-4 mb-8">
             <Button
               onClick={() => setShowForm(true)}
               className="bg-[#0f172a] hover:bg-[#1e293b] text-white px-8 py-3 rounded-md text-lg"
