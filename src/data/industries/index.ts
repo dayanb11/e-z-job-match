@@ -5,8 +5,8 @@ import { Industry } from '@/types/industry';
 
 export const industriesData: Industry[] = [
   dataIndustry,
-  ...otherIndustries,
   softwareIndustry,
+  ...otherIndustries,
 ];
 
-export * from './types';
+export * from '../types';

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { industriesData } from "@/data/skillsData";
+import { industriesData } from "@/data/industries";
 import { IndustrySelect } from "./IndustrySelect";
 import { RoleEntry } from "./RoleEntry";
 

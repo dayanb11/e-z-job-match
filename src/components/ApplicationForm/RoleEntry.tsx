@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
-import { Role } from "@/data/skillsData";
+import { Role } from "@/types/industry";
 import { RoleSelector } from "./RoleSelector";
 import { RoleSkillsManager } from "./RoleSkillsManager";
 

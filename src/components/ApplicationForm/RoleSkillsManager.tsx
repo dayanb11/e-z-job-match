@@ -1,6 +1,6 @@
 import { SkillsSelect } from "./SkillsSelect";
 import { SubSkillsSelect } from "./SubSkillsSelect";
-import { Role } from "@/data/skillsData";
+import { Role } from "@/types/industry";
 
 interface RoleSkillsManagerProps {
   selectedRoleData: Role | undefined;

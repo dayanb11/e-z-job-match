@@ -4,7 +4,7 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 import { ChevronsUpDown } from "lucide-react";
 import { useState } from "react";
 import { Label } from "@/components/ui/label";
-import { industriesData } from "@/data/skillsData";
+import { industriesData } from '@/data/industries';
 import { IndustryList } from "./IndustryList";
 import { IndustrySearch } from "./IndustrySearch";
 
@@ -20,9 +20,8 @@ export const IndustrySelect = ({
   const [open, setOpen] = useState(false);
   const [searchValue, setSearchValue] = useState("");
 
-  const filteredIndustries = (industriesData || []).filter((industry) => {
+  const filteredIndustries = industriesData.filter((industry) => {
     if (!searchValue) return true;
-    if (!industry?.name) return false;
     return industry.name.toLowerCase().includes(searchValue.toLowerCase());
   });
 

@@ -1,10 +1,14 @@
 export interface Industry {
   name: string;
-  roles: {
-    title: string;
-    skills: {
-      name: string;
-      subSkills: string[];
-    }[];
-  }[];
+  roles: Role[];
+}
+
+export interface Role {
+  title: string;
+  skills: Skill[];
+}
+
+export interface Skill {
+  name: string;
+  subSkills: string[];
 }
