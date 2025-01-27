@@ -59,15 +59,15 @@ export const ApplicationForm = () => {
   };
 
   return (
-    <div className="bg-gray-50 py-2 px-4 sm:px-6 lg:px-8" dir="rtl">
+    <div className="bg-gray-50 p-1 sm:px-4 lg:px-6" dir="rtl">
       <div className="max-w-2xl mx-auto">
-        <div className="text-center mb-1">
-          <h2 className="text-3xl font-bold text-gray-900 mb-1">E.Z Job Match App</h2>
-          <div className="flex justify-center items-center gap-2 mb-1">
+        <div className="text-center mb-0.5">
+          <h2 className="text-2xl font-bold text-gray-900 mb-0.5">E.Z Job Match App</h2>
+          <div className="flex justify-center items-center gap-1 mb-0.5">
             {[1, 2, 3].map((i) => (
               <div
                 key={i}
-                className={`w-2.5 h-2.5 rounded-full ${
+                className={`w-2 h-2 rounded-full ${
                   i === step ? "bg-primary" : "bg-gray-300"
                 }`}
               />
