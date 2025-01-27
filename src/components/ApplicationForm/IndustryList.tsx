@@ -1,4 +1,4 @@
-import { CommandEmpty, CommandGroup } from "@/components/ui/command";
+import { CommandItem } from "@/components/ui/command";
 import { Industry } from "@/types/industry";
 import { IndustryListItem } from "./IndustryListItem";
 
@@ -12,12 +12,8 @@ export const IndustryList = ({ industries, selectedIndustry, onSelect }: Industr
   // Ensure industries is always an array
   const safeIndustries = Array.isArray(industries) ? industries : [];
   
-  if (!safeIndustries?.length) {
-    return <CommandEmpty className="text-right">לא נמצאו תוצאות</CommandEmpty>;
-  }
-
   return (
-    <CommandGroup className="max-h-[300px] overflow-auto">
+    <>
       {safeIndustries.map((industry) => (
         industry?.name ? (
           <IndustryListItem
@@ -28,6 +24,6 @@ export const IndustryList = ({ industries, selectedIndustry, onSelect }: Industr
           />
         ) : null
       ))}
-    </CommandGroup>
+    </>
   );
 };

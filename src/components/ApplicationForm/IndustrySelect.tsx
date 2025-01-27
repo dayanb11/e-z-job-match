@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { Command } from "@/components/ui/command";
+import { Command, CommandEmpty, CommandGroup } from "@/components/ui/command";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { ChevronsUpDown } from "lucide-react";
 import { useState } from "react";
@@ -20,8 +20,10 @@ export const IndustrySelect = ({
   const [open, setOpen] = useState(false);
   const [searchValue, setSearchValue] = useState("");
 
-  // וידוא שיש לנו מערך תקין לסינון
+  // Ensure we have a valid array to work with
   const industries = Array.isArray(industriesData) ? industriesData : [];
+  
+  // Filter industries based on search value
   const filteredIndustries = industries.filter((industry) => {
     if (!searchValue) return true;
     return industry?.name?.toLowerCase().includes(searchValue.toLowerCase());
@@ -54,11 +56,17 @@ export const IndustrySelect = ({
               value={searchValue}
               onChange={setSearchValue}
             />
-            <IndustryList 
-              industries={filteredIndustries}
-              selectedIndustry={selectedIndustry}
-              onSelect={handleSelect}
-            />
+            {filteredIndustries.length === 0 ? (
+              <CommandEmpty className="text-right">לא נמצאו תוצאות</CommandEmpty>
+            ) : (
+              <CommandGroup>
+                <IndustryList 
+                  industries={filteredIndustries}
+                  selectedIndustry={selectedIndustry}
+                  onSelect={handleSelect}
+                />
+              </CommandGroup>
+            )}
           </Command>
         </PopoverContent>
       </Popover>
