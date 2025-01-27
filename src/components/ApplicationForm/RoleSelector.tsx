@@ -24,13 +24,14 @@ interface RoleSelectorProps {
 
 export const RoleSelector = ({
   selectedRole,
-  availableRoles,
+  availableRoles = [], // Provide default empty array
   onRoleSelect,
 }: RoleSelectorProps) => {
   const [open, setOpen] = useState(false);
   const [searchValue, setSearchValue] = useState("");
 
-  const filteredRoles = availableRoles.filter((role) =>
+  // Safely handle filtering with optional chaining and nullish coalescing
+  const filteredRoles = (availableRoles ?? []).filter((role) =>
     role.title
       .toLowerCase()
       .includes(searchValue.toLowerCase())
