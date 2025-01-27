@@ -21,7 +21,7 @@ export const IndustrySelect = ({
   const [searchValue, setSearchValue] = useState("");
 
   // וידוא שיש לנו מערך תקין לסינון
-  const industries = industriesData || [];
+  const industries = Array.isArray(industriesData) ? industriesData : [];
   const filteredIndustries = industries.filter((industry) => {
     if (!searchValue) return true;
     return industry?.name?.toLowerCase().includes(searchValue.toLowerCase());
