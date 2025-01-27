@@ -28,53 +28,7 @@ export const industriesData: Industry[] = [
   },
   {
     name: "אבטחת מידע וסייבר",
-    roles: [
-      {
-        title: "אנליסט סייבר",
-        skills: [
-          {
-            name: "פרוטוקולי אבטחה",
-            subSkills: ["TLS", "SSL"],
-          },
-          {
-            name: "זיהוי איומים",
-            subSkills: [],
-          },
-          {
-            name: "הקשחת מערכות",
-            subSkills: [],
-          },
-          {
-            name: "כלי SIEM",
-            subSkills: ["Splunk", "QRadar"],
-          },
-          {
-            name: "ניתוח לוגים",
-            subSkills: [],
-          },
-          {
-            name: "תקני תאימות",
-            subSkills: ["ISO 27001", "GDPR"],
-          },
-          {
-            name: "חומות אש",
-            subSkills: [],
-          },
-          {
-            name: "סריקות פגיעויות",
-            subSkills: [],
-          },
-          {
-            name: "רשתות מאובטחות",
-            subSkills: ["VPN", "IPS/IDS"],
-          },
-          {
-            name: "מדיניות אבטחה",
-            subSkills: [],
-          },
-        ],
-      },
-    ],
+    roles: [],
   },
   {
     name: "אדמיניסטרציה",
@@ -504,6 +458,51 @@ export const industriesData: Industry[] = [
           },
           {
             name: "שיפור ביצועים",
+            subSkills: [],
+          },
+        ],
+      },
+      {
+        title: "אנליסט סייבר",
+        skills: [
+          {
+            name: "פרוטוקולי אבטחה",
+            subSkills: ["TLS", "SSL"],
+          },
+          {
+            name: "זיהוי איומים",
+            subSkills: [],
+          },
+          {
+            name: "הקשחת מערכות",
+            subSkills: [],
+          },
+          {
+            name: "כלי SIEM",
+            subSkills: ["Splunk", "QRadar"],
+          },
+          {
+            name: "ניתוח לוגים",
+            subSkills: [],
+          },
+          {
+            name: "תקני תאימות",
+            subSkills: ["ISO 27001", "GDPR"],
+          },
+          {
+            name: "חומות אש",
+            subSkills: [],
+          },
+          {
+            name: "סריקות פגיעויות",
+            subSkills: [],
+          },
+          {
+            name: "רשתות מאובטחות",
+            subSkills: ["VPN", "IPS/IDS"],
+          },
+          {
+            name: "מדיניות אבטחה",
             subSkills: [],
           },
         ],
