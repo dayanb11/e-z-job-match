@@ -13,7 +13,7 @@ import {
 } from "@/components/ui/popover";
 import { Check, ChevronsUpDown } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { Role } from "@/data/skillsData";
+import { Role } from "@/types/industry";
 import { useState } from "react";
 
 interface RoleSelectorProps {
@@ -30,11 +30,10 @@ export const RoleSelector = ({
   const [open, setOpen] = useState(false);
   const [searchValue, setSearchValue] = useState("");
 
-  const filteredRoles = (availableRoles || []).filter((role) =>
+  const filteredRoles = availableRoles.filter((role) =>
     role.title
       .toLowerCase()
-      .slice(0, 2)
-      .includes((searchValue || "").toLowerCase().slice(0, 2))
+      .includes(searchValue.toLowerCase())
   );
 
   return (
@@ -54,12 +53,12 @@ export const RoleSelector = ({
         <Command dir="rtl" shouldFilter={false}>
           <CommandInput 
             placeholder="חפש תפקיד..." 
-            value={searchValue || ""}
+            value={searchValue}
             onValueChange={setSearchValue}
           />
           <CommandEmpty>לא נמצאו תוצאות</CommandEmpty>
           <CommandGroup className="max-h-[300px] overflow-auto">
-            {(filteredRoles || []).map((role) => (
+            {filteredRoles.map((role) => (
               <CommandItem
                 key={role.title}
                 value={role.title}

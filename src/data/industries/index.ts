@@ -9,4 +9,4 @@ export const industriesData: Industry[] = [
   ...otherIndustries,
 ];
 
-export * from '../types';
+export type { Industry, Role, Skill } from '@/types/industry';
