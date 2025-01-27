@@ -1,3 +1,4 @@
+import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Command,
@@ -11,10 +12,9 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { Check, ChevronsUpDown } from "lucide-react";
+import { Check } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Role } from "@/types/industry";
-import { useState } from "react";
 
 interface RoleSelectorProps {
   selectedRole: string;
@@ -30,9 +30,12 @@ export const RoleSelector = ({
   const [open, setOpen] = useState(false);
   const [searchValue, setSearchValue] = useState("");
 
-  const filteredRoles = availableRoles.filter((role) =>
-    role?.title?.toLowerCase().includes(searchValue.toLowerCase())
-  );
+  // Ensure we have a valid array to work with and safely handle undefined titles
+  const safeRoles = Array.isArray(availableRoles) ? availableRoles : [];
+  const filteredRoles = safeRoles.filter((role) => {
+    if (!role?.title || !searchValue) return true;
+    return role.title.toLowerCase().includes(searchValue.toLowerCase());
+  });
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
@@ -44,7 +47,7 @@ export const RoleSelector = ({
           className="w-full justify-between text-right"
         >
           {selectedRole || "בחר תפקיד"}
-          <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+          <Check className="ml-2 h-4 w-4 shrink-0 opacity-50" />
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-full p-0" align="start">
@@ -53,6 +56,7 @@ export const RoleSelector = ({
             placeholder="חפש תפקיד..." 
             value={searchValue}
             onValueChange={setSearchValue}
+            className="text-right"
           />
           <CommandGroup>
             {filteredRoles.length === 0 ? (
