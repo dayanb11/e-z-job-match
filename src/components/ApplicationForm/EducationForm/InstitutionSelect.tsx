@@ -20,6 +20,7 @@ const academicInstitutions = [
   { value: "sapir", label: "מכללת ספיר" },
   { value: "ruppin", label: "המרכז האקדמי רופין" },
   { value: "mta", label: "המכללה האקדמית של תל-אביב-יפו" },
+  { value: "ono", label: "הקריה האקדמית אונו" },
   { value: "other", label: "אחר" },
 ];
 
