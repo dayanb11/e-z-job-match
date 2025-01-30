@@ -16,8 +16,13 @@ import {
 import { Card } from "@/components/ui/card";
 
 const fetchApplicationsData = async () => {
+  console.log('Fetching applications data...');
   const { data, error } = await supabase.from("applications").select("*");
-  if (error) throw error;
+  if (error) {
+    console.error('Error fetching data:', error);
+    throw error;
+  }
+  console.log('Fetched data:', data);
   return data;
 };
 
