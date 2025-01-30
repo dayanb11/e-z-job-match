@@ -31,7 +31,17 @@ const Dashboard = () => {
     return <div className="p-8 text-center">טוען נתונים...</div>;
   }
 
-  const industryData = applications?.reduce((acc: any[], app) => {
+  if (!applications || applications.length === 0) {
+    return (
+      <div className="p-8 text-center" dir="rtl">
+        <h1 className="text-3xl font-bold mb-4">דשבורד מועמדים</h1>
+        <p className="text-gray-600">לא נמצאו נתונים להצגה</p>
+      </div>
+    );
+  }
+
+  // Aggregate industry data
+  const industryData = applications.reduce((acc: any[], app) => {
     if (app.industry) {
       const existingIndustry = acc.find((item) => item.name === app.industry);
       if (existingIndustry) {
@@ -43,7 +53,23 @@ const Dashboard = () => {
     return acc;
   }, []);
 
+  // Aggregate applications by date
+  const applicationsByDate = applications.reduce((acc: { [key: string]: number }, app) => {
+    const date = new Date(app.created_at).toLocaleDateString("he-IL");
+    acc[date] = (acc[date] || 0) + 1;
+    return acc;
+  }, {});
+
+  const timelineData = Object.entries(applicationsByDate).map(([date, count]) => ({
+    date,
+    count,
+  }));
+
   const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042", "#8884D8"];
+
+  console.log('Applications data:', applications);
+  console.log('Industry data:', industryData);
+  console.log('Timeline data:', timelineData);
 
   return (
     <div className="p-8" dir="rtl">
@@ -81,12 +107,7 @@ const Dashboard = () => {
           <h2 className="text-xl font-semibold mb-4">מספר הרשמות לאורך זמן</h2>
           <div className="h-[300px]">
             <ResponsiveContainer width="100%" height="100%">
-              <BarChart
-                data={applications?.map((app) => ({
-                  date: new Date(app.created_at).toLocaleDateString("he-IL"),
-                  count: 1,
-                }))}
-              >
+              <BarChart data={timelineData}>
                 <CartesianGrid strokeDasharray="3 3" />
                 <XAxis dataKey="date" />
                 <YAxis />
