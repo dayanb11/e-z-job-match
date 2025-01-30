@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { ApplicationForm } from "@/components/ApplicationForm/ApplicationForm";
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
 const Index = () => {
   const [showForm, setShowForm] = useState(false);
@@ -44,6 +45,11 @@ const Index = () => {
               הרשמת חברה
             </Button>
           </div>
+          <Link to="/dashboard">
+            <Button variant="link" className="text-primary">
+              צפה בדשבורד מועמדים
+            </Button>
+          </Link>
         </div>
 
         {/* Problem & Solution Section */}
