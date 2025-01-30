@@ -49,7 +49,7 @@ const Index = () => {
                 variant="outline"
                 className="border-2 border-[#0f172a] text-[#0f172a] px-6 py-2 rounded-md text-base hover:bg-gray-50"
               >
-                צפה בדשבורד מועמדים
+                דשבורד מועמדים
               </Button>
             </Link>
           </div>
