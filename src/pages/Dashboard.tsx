@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import {
@@ -14,6 +14,7 @@ import {
   Cell,
 } from "recharts";
 import { Card } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
 
 const fetchApplicationsData = async () => {
   console.log('Fetching applications data...');
@@ -27,6 +28,7 @@ const fetchApplicationsData = async () => {
 };
 
 const Dashboard = () => {
+  const [selectedDate, setSelectedDate] = useState<string | null>(null);
   const { data: applications, isLoading } = useQuery({
     queryKey: ["applications"],
     queryFn: fetchApplicationsData,
@@ -45,8 +47,16 @@ const Dashboard = () => {
     );
   }
 
-  // Aggregate industry data
-  const industryData = applications.reduce((acc: any[], app) => {
+  // Filter applications based on selected date
+  const filteredApplications = selectedDate
+    ? applications.filter(
+        (app) =>
+          new Date(app.created_at).toLocaleDateString("he-IL") === selectedDate
+      )
+    : applications;
+
+  // Aggregate industry data for filtered applications
+  const industryData = filteredApplications.reduce((acc: any[], app) => {
     if (app.industry) {
       const existingIndustry = acc.find((item) => item.name === app.industry);
       if (existingIndustry) {
@@ -72,17 +82,31 @@ const Dashboard = () => {
 
   const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042", "#8884D8"];
 
-  console.log('Applications data:', applications);
-  console.log('Industry data:', industryData);
-  console.log('Timeline data:', timelineData);
+  const handleBarClick = (data: any) => {
+    setSelectedDate(selectedDate === data.date ? null : data.date);
+  };
 
   return (
     <div className="p-8" dir="rtl">
-      <h1 className="text-3xl font-bold mb-8 text-center">דשבורד מועמדים</h1>
+      <div className="flex justify-between items-center mb-8">
+        <h1 className="text-3xl font-bold">דשבורד מועמדים</h1>
+        {selectedDate && (
+          <Button
+            variant="outline"
+            onClick={() => setSelectedDate(null)}
+            className="mr-4"
+          >
+            נקה סינון ({selectedDate})
+          </Button>
+        )}
+      </div>
       
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
         <Card className="p-6">
-          <h2 className="text-xl font-semibold mb-4">התפלגות לפי תעשייה</h2>
+          <h2 className="text-xl font-semibold mb-4">
+            התפלגות לפי תעשייה
+            {selectedDate && ` (${selectedDate})`}
+          </h2>
           <div className="h-[300px]">
             <ResponsiveContainer width="100%" height="100%">
               <PieChart>
@@ -93,7 +117,7 @@ const Dashboard = () => {
                   cx="50%"
                   cy="50%"
                   outerRadius={100}
-                  label={(entry) => entry.name}
+                  label={(entry) => `${entry.name} (${entry.value})`}
                 >
                   {industryData?.map((entry, index) => (
                     <Cell
@@ -117,7 +141,13 @@ const Dashboard = () => {
                 <XAxis dataKey="date" />
                 <YAxis />
                 <Tooltip />
-                <Bar dataKey="count" fill="#8884d8" />
+                <Bar
+                  dataKey="count"
+                  fill="#8884d8"
+                  onClick={handleBarClick}
+                  cursor="pointer"
+                  className={`hover:opacity-80 transition-opacity`}
+                />
               </BarChart>
             </ResponsiveContainer>
           </div>
