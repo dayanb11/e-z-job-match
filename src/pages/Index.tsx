@@ -44,12 +44,15 @@ const Index = () => {
             >
               הרשמת חברה
             </Button>
+            <Link to="/dashboard">
+              <Button
+                variant="outline"
+                className="border-2 border-[#0f172a] text-[#0f172a] px-6 py-2 rounded-md text-base hover:bg-gray-50"
+              >
+                צפה בדשבורד מועמדים
+              </Button>
+            </Link>
           </div>
-          <Link to="/dashboard">
-            <Button variant="link" className="text-primary">
-              צפה בדשבורד מועמדים
-            </Button>
-          </Link>
         </div>
 
         {/* Problem & Solution Section */}
