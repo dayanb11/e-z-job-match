@@ -29,6 +29,7 @@ const fetchApplicationsData = async () => {
 
 const Dashboard = () => {
   const [selectedDate, setSelectedDate] = useState<string | null>(null);
+  const [selectedIndustry, setSelectedIndustry] = useState<string | null>(null);
   const { data: applications, isLoading } = useQuery({
     queryKey: ["applications"],
     queryFn: fetchApplicationsData,
@@ -47,16 +48,19 @@ const Dashboard = () => {
     );
   }
 
-  // Filter applications based on selected date
-  const filteredApplications = selectedDate
-    ? applications.filter(
-        (app) =>
-          new Date(app.created_at).toLocaleDateString("he-IL") === selectedDate
-      )
-    : applications;
+  // Filter applications based on selected date and industry
+  const filteredApplications = applications.filter((app) => {
+    const dateMatch = selectedDate 
+      ? new Date(app.created_at).toLocaleDateString("he-IL") === selectedDate
+      : true;
+    const industryMatch = selectedIndustry
+      ? app.industry === selectedIndustry
+      : true;
+    return dateMatch && industryMatch;
+  });
 
   // Aggregate industry data for filtered applications
-  const industryData = filteredApplications.reduce((acc: any[], app) => {
+  const industryData = applications.reduce((acc: any[], app) => {
     if (app.industry) {
       const existingIndustry = acc.find((item) => item.name === app.industry);
       if (existingIndustry) {
@@ -68,8 +72,8 @@ const Dashboard = () => {
     return acc;
   }, []);
 
-  // Aggregate applications by date
-  const applicationsByDate = applications.reduce((acc: { [key: string]: number }, app) => {
+  // Aggregate applications by date for filtered applications
+  const applicationsByDate = filteredApplications.reduce((acc: { [key: string]: number }, app) => {
     const date = new Date(app.created_at).toLocaleDateString("he-IL");
     acc[date] = (acc[date] || 0) + 1;
     return acc;
@@ -86,17 +90,28 @@ const Dashboard = () => {
     setSelectedDate(selectedDate === data.date ? null : data.date);
   };
 
+  const handlePieClick = (data: any) => {
+    setSelectedIndustry(selectedIndustry === data.name ? null : data.name);
+  };
+
+  const clearFilters = () => {
+    setSelectedDate(null);
+    setSelectedIndustry(null);
+  };
+
   return (
     <div className="p-8" dir="rtl">
       <div className="flex justify-between items-center mb-8">
         <h1 className="text-3xl font-bold">דשבורד מועמדים</h1>
-        {selectedDate && (
+        {(selectedDate || selectedIndustry) && (
           <Button
             variant="outline"
-            onClick={() => setSelectedDate(null)}
+            onClick={clearFilters}
             className="mr-4"
           >
-            נקה סינון ({selectedDate})
+            נקה סינון
+            {selectedDate && ` (תאריך: ${selectedDate})`}
+            {selectedIndustry && ` (תעשייה: ${selectedIndustry})`}
           </Button>
         )}
       </div>
@@ -118,11 +133,16 @@ const Dashboard = () => {
                   cy="50%"
                   outerRadius={100}
                   label={(entry) => `${entry.name} (${entry.value})`}
+                  onClick={handlePieClick}
+                  cursor="pointer"
                 >
                   {industryData?.map((entry, index) => (
                     <Cell
                       key={`cell-${index}`}
                       fill={COLORS[index % COLORS.length]}
+                      className={`hover:opacity-80 transition-opacity ${
+                        selectedIndustry === entry.name ? 'opacity-100' : 'opacity-70'
+                      }`}
                     />
                   ))}
                 </Pie>
@@ -133,7 +153,10 @@ const Dashboard = () => {
         </Card>
 
         <Card className="p-6">
-          <h2 className="text-xl font-semibold mb-4">מספר הרשמות לאורך זמן</h2>
+          <h2 className="text-xl font-semibold mb-4">
+            מספר הרשמות לאורך זמן
+            {selectedIndustry && ` (${selectedIndustry})`}
+          </h2>
           <div className="h-[300px]">
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={timelineData}>
