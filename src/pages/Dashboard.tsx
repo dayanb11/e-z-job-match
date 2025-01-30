@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { Link } from "react-router-dom";
 import {
   BarChart,
   Bar,
@@ -44,6 +45,11 @@ const Dashboard = () => {
       <div className="p-8 text-center" dir="rtl">
         <h1 className="text-3xl font-bold mb-4">דשבורד מועמדים</h1>
         <p className="text-gray-600">לא נמצאו נתונים להצגה</p>
+        <Link to="/">
+          <Button variant="outline" className="mt-4">
+            חזרה לדף הראשי
+          </Button>
+        </Link>
       </div>
     );
   }
@@ -103,17 +109,23 @@ const Dashboard = () => {
     <div className="p-8" dir="rtl">
       <div className="flex justify-between items-center mb-8">
         <h1 className="text-3xl font-bold">דשבורד מועמדים</h1>
-        {(selectedDate || selectedIndustry) && (
-          <Button
-            variant="outline"
-            onClick={clearFilters}
-            className="mr-4"
-          >
-            נקה סינון
-            {selectedDate && ` (תאריך: ${selectedDate})`}
-            {selectedIndustry && ` (תעשייה: ${selectedIndustry})`}
-          </Button>
-        )}
+        <div className="flex gap-2">
+          {(selectedDate || selectedIndustry) && (
+            <Button
+              variant="outline"
+              onClick={clearFilters}
+            >
+              נקה סינון
+              {selectedDate && ` (תאריך: ${selectedDate})`}
+              {selectedIndustry && ` (תעשייה: ${selectedIndustry})`}
+            </Button>
+          )}
+          <Link to="/">
+            <Button variant="outline">
+              חזרה לדף הראשי
+            </Button>
+          </Link>
+        </div>
       </div>
       
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
