@@ -33,31 +33,36 @@ Deno.serve(async (req) => {
 
     console.log(`Found ${applications?.length || 0} pending applications`);
 
-    // Process each application
-    for (const application of applications || []) {
-      console.log(`Processing application for ${application.personal_details.fullName}`);
-      
-      // Here you can add your application processing logic
-      // For example: sending emails, updating external systems, etc.
-      
-      // Update the application status to processed
-      const { error: updateError } = await supabaseClient
-        .from('applications')
-        .update({ status: 'processed' })
-        .eq('id', application.id);
+    let processedCount = 0;
 
-      if (updateError) {
-        console.error(`Error updating application ${application.id}:`, updateError);
+    // Process each application by creating a new record
+    for (const application of applications || []) {
+      console.log(`Creating new processed record for ${application.personal_details.fullName}`);
+      
+      // Create a new record with status='processed'
+      const { error: insertError } = await supabaseClient
+        .from('applications')
+        .insert({
+          personal_details: application.personal_details,
+          industry: application.industry,
+          roles: application.roles,
+          educations: application.educations,
+          status: 'processed'
+        });
+
+      if (insertError) {
+        console.error(`Error creating processed record for application ${application.id}:`, insertError);
         continue;
       }
 
-      console.log(`Successfully processed application ${application.id}`);
+      processedCount++;
+      console.log(`Successfully created processed record for application ${application.id}`);
     }
 
     return new Response(
       JSON.stringify({ 
-        message: 'Applications processed successfully',
-        processed: applications?.length || 0 
+        message: 'New processed applications created successfully',
+        processed: processedCount
       }),
       { 
         headers: { ...corsHeaders, 'Content-Type': 'application/json' },
