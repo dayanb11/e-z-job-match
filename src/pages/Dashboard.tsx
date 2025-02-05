@@ -129,7 +129,11 @@ const Dashboard = () => {
   return (
     <div className="p-8" dir="rtl">
       <div className="flex justify-between items-center mb-8">
-        <h1 className="text-3xl font-bold">דשבורד מועמדים</h1>
+        <div>
+          <h1 className="text-3xl font-bold">דשבורד מועמדים</h1>
+          <p className="text-gray-600 mt-2">סה"כ מועמדים: {applications.length}</p>
+          <p className="text-gray-600">מועמדים מסוננים: {filteredApplications.length}</p>
+        </div>
         <div className="flex gap-2">
           {(selectedDate || selectedIndustry || selectedStatus) && (
             <Button
@@ -229,3 +233,4 @@ const Dashboard = () => {
 };
 
 export default Dashboard;
+
