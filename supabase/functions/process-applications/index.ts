@@ -19,50 +19,50 @@ Deno.serve(async (req) => {
       Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ?? ''
     );
 
-    console.log('Starting to process pending applications...');
+    console.log('Creating a new dummy application record...');
 
-    // Get all pending applications
-    const { data: applications, error: fetchError } = await supabaseClient
+    // Create a new dummy application record
+    const dummyApplication = {
+      personal_details: {
+        fullName: "יעל כהן",
+        email: "test@example.com",
+        phone: "050-0000000",
+        location: "תל אביב"
+      },
+      industry: "תוכנה",
+      roles: [{
+        role: "מפתח/ת Full Stack",
+        skills: [
+          { name: "React", level: 4 },
+          { name: "Node.js", level: 3 }
+        ],
+        subSkills: [
+          { name: "TypeScript", level: 4 },
+          { name: "REST APIs", level: 3 }
+        ]
+      }],
+      educations: [{
+        education: "תואר ראשון",
+        certifications: "מדעי המחשב",
+        institution: "אוניברסיטת תל אביב",
+        additionalInfo: "סיום בהצטיינות"
+      }],
+      status: 'pending'
+    };
+
+    const { error: insertError } = await supabaseClient
       .from('applications')
-      .select('*')
-      .eq('status', 'pending');
+      .insert([dummyApplication]);
 
-    if (fetchError) {
-      throw fetchError;
+    if (insertError) {
+      throw insertError;
     }
 
-    console.log(`Found ${applications?.length || 0} pending applications`);
-
-    let processedCount = 0;
-
-    // Process each application by creating a new record
-    for (const application of applications || []) {
-      console.log(`Creating new processed record for ${application.personal_details.fullName}`);
-      
-      // Create a new record with status='processed'
-      const { error: insertError } = await supabaseClient
-        .from('applications')
-        .insert({
-          personal_details: application.personal_details,
-          industry: application.industry,
-          roles: application.roles,
-          educations: application.educations,
-          status: 'processed'
-        });
-
-      if (insertError) {
-        console.error(`Error creating processed record for application ${application.id}:`, insertError);
-        continue;
-      }
-
-      processedCount++;
-      console.log(`Successfully created processed record for application ${application.id}`);
-    }
+    console.log('Successfully created a new dummy application record');
 
     return new Response(
       JSON.stringify({ 
-        message: 'New processed applications created successfully',
-        processed: processedCount
+        message: 'New dummy application created successfully'
       }),
       { 
         headers: { ...corsHeaders, 'Content-Type': 'application/json' },
@@ -71,7 +71,7 @@ Deno.serve(async (req) => {
     );
 
   } catch (error) {
-    console.error('Error processing applications:', error);
+    console.error('Error creating dummy application:', error);
     return new Response(
       JSON.stringify({ error: error.message }),
       { 
