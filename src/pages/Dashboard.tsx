@@ -96,8 +96,11 @@ const Dashboard = () => {
     count,
   }));
 
-  // Get unique statuses for filtering
-  const statuses = Array.from(new Set(applications.map(app => app.status))).filter(Boolean);
+  // Define available statuses
+  const statusFilters = [
+    { value: 'pending', label: 'ממתין לטיפול' },
+    { value: 'processed', label: 'טופלו' }
+  ];
 
   const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042", "#8884D8"];
 
@@ -143,7 +146,7 @@ const Dashboard = () => {
               נקה סינון
               {selectedDate && ` (תאריך: ${selectedDate})`}
               {selectedIndustry && ` (תעשייה: ${selectedIndustry})`}
-              {selectedStatus && ` (סטטוס: ${selectedStatus})`}
+              {selectedStatus && ` (סטטוס: ${statusFilters.find(s => s.value === selectedStatus)?.label})`}
             </Button>
           )}
           <Link to="/">
@@ -155,13 +158,17 @@ const Dashboard = () => {
       </div>
 
       <div className="mb-6 flex gap-2">
-        {statuses.map((status) => (
+        {statusFilters.map((status) => (
           <Badge
-            key={status}
-            className={`cursor-pointer ${selectedStatus === status ? getStatusColor(status) : 'bg-gray-200'}`}
-            onClick={() => setSelectedStatus(selectedStatus === status ? null : status)}
+            key={status.value}
+            className={`cursor-pointer ${
+              selectedStatus === status.value 
+                ? getStatusColor(status.value) 
+                : 'bg-gray-200'
+            }`}
+            onClick={() => setSelectedStatus(selectedStatus === status.value ? null : status.value)}
           >
-            {status === 'pending' ? 'ממתין לטיפול' : 'טופל'}
+            {status.label}
           </Badge>
         ))}
       </div>
@@ -171,7 +178,7 @@ const Dashboard = () => {
           <h2 className="text-xl font-semibold mb-4">
             התפלגות לפי תעשייה
             {selectedDate && ` (${selectedDate})`}
-            {selectedStatus && ` (${selectedStatus === 'pending' ? 'ממתין לטיפול' : 'טופל'})`}
+            {selectedStatus && ` (${statusFilters.find(s => s.value === selectedStatus)?.label})`}
           </h2>
           <div className="h-[300px]">
             <ResponsiveContainer width="100%" height="100%">
@@ -207,7 +214,7 @@ const Dashboard = () => {
           <h2 className="text-xl font-semibold mb-4">
             מספר הרשמות לאורך זמן
             {selectedIndustry && ` (${selectedIndustry})`}
-            {selectedStatus && ` (${selectedStatus === 'pending' ? 'ממתין לטיפול' : 'טופל'})`}
+            {selectedStatus && ` (${statusFilters.find(s => s.value === selectedStatus)?.label})`}
           </h2>
           <div className="h-[300px]">
             <ResponsiveContainer width="100%" height="100%">
@@ -233,4 +240,3 @@ const Dashboard = () => {
 };
 
 export default Dashboard;
-
