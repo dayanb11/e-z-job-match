@@ -29,7 +29,7 @@ Deno.serve(async (req) => {
         phone: "050-0000000",
         location: "תל אביב"
       },
-      industry: "תוכנה",
+      industry: "תוכנה",  // שיניתי את זה מ"הייטק" ל"תוכנה" כדי שיתאים לרשימת התעשיות המוגדרת
       roles: [{
         role: "מפתח/ת Full Stack",
         skills: [
