@@ -6,6 +6,9 @@ const corsHeaders = {
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
 };
 
+// Define valid industries
+const validIndustries = ['תוכנה', 'דאטה'];
+
 Deno.serve(async (req) => {
   // Handle CORS preflight requests
   if (req.method === 'OPTIONS') {
@@ -13,11 +16,53 @@ Deno.serve(async (req) => {
   }
 
   try {
+    // Parse request body if it exists
+    let requestData;
+    if (req.method === 'POST') {
+      try {
+        requestData = await req.json();
+      } catch (e) {
+        console.error('Error parsing request body:', e);
+      }
+    }
+
     // Initialize Supabase client
     const supabaseClient = createClient(
       Deno.env.get('SUPABASE_URL') ?? '',
       Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ?? ''
     );
+
+    // If we have request data, validate the industry
+    if (requestData?.industry) {
+      if (!validIndustries.includes(requestData.industry)) {
+        return new Response(
+          JSON.stringify({ 
+            error: 'Invalid industry value. Must be one of: ' + validIndustries.join(', ') 
+          }),
+          { 
+            headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+            status: 400
+          }
+        );
+      }
+      
+      // Create application with validated data
+      const { error: insertError } = await supabaseClient
+        .from('applications')
+        .insert([requestData]);
+
+      if (insertError) {
+        throw insertError;
+      }
+
+      return new Response(
+        JSON.stringify({ message: 'Application created successfully' }),
+        { 
+          headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+          status: 200 
+        }
+      );
+    }
 
     console.log('Creating a new dummy application record...');
 
@@ -29,7 +74,7 @@ Deno.serve(async (req) => {
         phone: "050-0000000",
         location: "תל אביב"
       },
-      industry: "תוכנה",  // שיניתי את זה מ"הייטק" ל"תוכנה" כדי שיתאים לרשימת התעשיות המוגדרת
+      industry: "תוכנה",  // תמיד משתמשים בערך תקין מרשימת התעשיות המוגדרת
       roles: [{
         role: "מפתח/ת Full Stack",
         skills: [
@@ -71,7 +116,7 @@ Deno.serve(async (req) => {
     );
 
   } catch (error) {
-    console.error('Error creating dummy application:', error);
+    console.error('Error creating application:', error);
     return new Response(
       JSON.stringify({ error: error.message }),
       { 
